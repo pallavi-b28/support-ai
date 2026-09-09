@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | SupportAI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body class="dashboard-page">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-mark">
+                S
+            </div>
+
+            <div>
+                <div class="brand-name">SupportAI</div>
+                <div class="brand-caption">Customer Portal</div>
+            </div>
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-item active">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="tickets.html" class="nav-item">
+                <span class="nav-icon">◫</span>
+                <span>My Tickets</span>
+            </a>
+
+            <a href="create-ticket.html" class="nav-item">
+                <span class="nav-icon">＋</span>
+                <span>Create Ticket</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-help">
+                <div class="help-icon">✦</div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <p>Our support team is here.</p>
+                </div>
+            </div>
+
+            <button
+                class="logout-button"
+                id="logoutButton"
+            >
+                <span>↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="dashboard-main">
+
+        <!-- TOP BAR -->
+
+        <header class="dashboard-header">
+
+            <div>
+                <p class="eyebrow">CUSTOMER PORTAL</p>
+
+                <h1>
+                    Welcome back,
+                    <span id="customerName">there</span>.
+                </h1>
+
+                <p class="header-subtitle">
+                    Here's what's happening with your support requests.
+                </p>
+            </div>
+
+
+            <div class="header-actions">
+
+                <button
+                    class="notification-button"
+                    title="Notifications"
+                >
+                    ♢
+                </button>
+
+                <div class="user-profile">
+
+                    <div
+                        class="avatar"
+                        id="userAvatar"
+                    >
+                        U
+                    </div>
+
+                    <div class="user-details">
+                        <strong id="headerUserName">
+                            User
+                        </strong>
+
+                        <span>
+                            Customer
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             QUICK ACTION
+        ========================== -->
+
+        <section class="dashboard-hero-card">
+
+            <div class="hero-card-content">
+
+                <span class="hero-badge">
+                    ✦ SUPPORTAI
+                </span>
+
+                <h2>
+                    How can we help you today?
+                </h2>
+
+                <p>
+                    Create a support ticket and let our team
+                    help resolve your issue quickly.
+                </p>
+
+                <a
+                    href="create-ticket.html"
+                    class="primary-action"
+                >
+                    <span>＋</span>
+                    Create a ticket
+                </a>
+
+            </div>
+
+
+            <div class="hero-card-orb">
+
+                <div class="orb-ring ring-one"></div>
+                <div class="orb-ring ring-two"></div>
+                <div class="orb-core">
+                    ✦
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             STATISTICS
+        ========================== -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+                    <span>Total tickets</span>
+                    <div class="stat-icon">◫</div>
+                </div>
+
+                <strong id="totalTickets">
+                    0
+                </strong>
+
+                <p>
+                    All your requests
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+                    <span>Open</span>
+                    <div class="stat-icon">○</div>
+                </div>
+
+                <strong id="openTickets">
+                    0
+                </strong>
+
+                <p>
+                    Awaiting support
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+                    <span>In progress</span>
+                    <div class="stat-icon">◌</div>
+                </div>
+
+                <strong id="inProgressTickets">
+                    0
+                </strong>
+
+                <p>
+                    Being handled
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+                    <span>Resolved</span>
+                    <div class="stat-icon">✓</div>
+                </div>
+
+                <strong id="resolvedTickets">
+                    0
+                </strong>
+
+                <p>
+                    Successfully resolved
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CONTENT GRID
+        ========================== -->
+
+        <section class="dashboard-content-grid">
+
+
+            <!-- RECENT TICKETS -->
+
+            <div class="dashboard-panel tickets-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <p class="panel-label">
+                            SUPPORT ACTIVITY
+                        </p>
+
+                        <h3>
+                            Recent tickets
+                        </h3>
+                    </div>
+
+                    <a href="tickets.html">
+                        View all →
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="tickets-list"
+                    id="ticketsList"
+                >
+
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <span>Loading tickets...</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- INSIGHTS -->
+
+            <div class="dashboard-panel insights-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <p class="panel-label">
+                            YOUR SUPPORT INSIGHTS
+                        </p>
+
+                        <h3>
+                            At a glance
+                        </h3>
+                    </div>
+
+                </div>
+
+
+                <div class="insight-rating">
+
+                    <div class="rating-circle">
+                        ★
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Average rating
+                        </span>
+
+                        <strong id="averageRating">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="insight-row">
+
+                    <div class="insight-icon">
+                        ✦
+                    </div>
+
+                    <div>
+                        <strong id="aiAnalyzedTickets">
+                            0
+                        </strong>
+
+                        <span>
+                            AI-analyzed tickets
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="insight-row">
+
+                    <div class="insight-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong id="ratedTickets">
+                            0
+                        </strong>
+
+                        <span>
+                            Tickets rated
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="insight-message">
+
+                    <span>✦</span>
+
+                    <p>
+                        Your support experience is powered by
+                        AI-assisted ticket analysis.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             EMPTY / ERROR MESSAGE
+        ========================== -->
+
+        <div
+            id="dashboardMessage"
+            class="dashboard-message"
+            hidden
+        ></div>
+
+    </main>
+
+
+    <script src="js/route-guard.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

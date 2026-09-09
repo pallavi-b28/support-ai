@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Tickets | SupportAI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/tickets.css">
+</head>
+
+<body class="dashboard-page">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-mark">
+                S
+            </div>
+
+            <div>
+                <div class="brand-name">
+                    SupportAI
+                </div>
+
+                <div class="brand-caption">
+                    Customer Portal
+                </div>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="dashboard.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+
+            <a
+                href="tickets.html"
+                class="nav-item active"
+            >
+                <span class="nav-icon">◫</span>
+                <span>My Tickets</span>
+            </a>
+
+
+            <a
+                href="create-ticket.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">＋</span>
+                <span>Create Ticket</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-help">
+
+                <div class="help-icon">
+                    ✦
+                </div>
+
+                <div>
+                    <strong>
+                        Need help?
+                    </strong>
+
+                    <p>
+                        Our support team is here.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <button
+                class="logout-button"
+                id="logoutButton"
+            >
+                <span>↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="dashboard-main tickets-main">
+
+        <!-- HEADER -->
+
+        <header class="tickets-page-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    SUPPORT CENTER
+                </p>
+
+                <h1>
+                    My tickets
+                </h1>
+
+                <p class="header-subtitle">
+                    Track and manage all your support requests.
+                </p>
+
+            </div>
+
+
+            <a
+                href="create-ticket.html"
+                class="primary-action"
+            >
+                <span>＋</span>
+                Create ticket
+            </a>
+
+        </header>
+
+
+        <!-- SUMMARY -->
+
+        <section class="ticket-summary-grid">
+
+            <div class="ticket-summary-card">
+
+                <span>
+                    All tickets
+                </span>
+
+                <strong id="summaryTotal">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="ticket-summary-card">
+
+                <span>
+                    Open
+                </span>
+
+                <strong id="summaryOpen">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="ticket-summary-card">
+
+                <span>
+                    In progress
+                </span>
+
+                <strong id="summaryProgress">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="ticket-summary-card">
+
+                <span>
+                    Resolved
+                </span>
+
+                <strong id="summaryResolved">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- FILTER BAR -->
+
+        <section class="ticket-toolbar">
+
+            <div class="ticket-search">
+
+                <span>
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search tickets..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div class="ticket-filters">
+
+                <select id="statusFilter">
+
+                    <option value="all">
+                        All status
+                    </option>
+
+                    <option value="open">
+                        Open
+                    </option>
+
+                    <option value="in_progress">
+                        In progress
+                    </option>
+
+                    <option value="resolved">
+                        Resolved
+                    </option>
+
+                    <option value="closed">
+                        Closed
+                    </option>
+
+                </select>
+
+
+                <select id="priorityFilter">
+
+                    <option value="all">
+                        All priority
+                    </option>
+
+                    <option value="low">
+                        Low
+                    </option>
+
+                    <option value="medium">
+                        Medium
+                    </option>
+
+                    <option value="high">
+                        High
+                    </option>
+
+                    <option value="critical">
+                        Critical
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+        <!-- TICKETS TABLE -->
+
+        <section class="tickets-table-panel">
+
+            <div class="tickets-table-header">
+
+                <div>
+
+                    <p class="panel-label">
+                        TICKET HISTORY
+                    </p>
+
+                    <h2>
+                        Your support requests
+                    </h2>
+
+                </div>
+
+
+                <span
+                    class="ticket-count"
+                    id="ticketCount"
+                >
+                    0 tickets
+                </span>
+
+            </div>
+
+
+            <div class="tickets-table-wrapper">
+
+                <table class="tickets-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Ticket
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Priority
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Created
+                            </th>
+
+                            <th>
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="ticketsTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="table-loading"
+                            >
+
+                                <div class="loading-spinner"></div>
+
+                                Loading tickets...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- EMPTY STATE -->
+
+            <div
+                id="emptyState"
+                class="empty-state"
+                hidden
+            >
+
+                <div class="empty-icon">
+                    ◫
+                </div>
+
+                <h3>
+                    No tickets found
+                </h3>
+
+                <p>
+                    Try changing your filters or create
+                    a new support ticket.
+                </p>
+
+                <a
+                    href="create-ticket.html"
+                    class="primary-action"
+                >
+                    ＋ Create a ticket
+                </a>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            <div
+                id="ticketsError"
+                class="tickets-error"
+                hidden
+            ></div>
+
+        </section>
+
+    </main>
+
+    <script src="js/route-guard.js"></script>
+    <script src="js/tickets.js"></script>
+
+</body>
+</html>

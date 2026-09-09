@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | SupportAI</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin-dashboard.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="admin-navbar">
+
+        <div class="nav-left">
+
+            <a href="admin-dashboard.html" class="brand">
+                <span class="brand-icon">✦</span>
+                <span>Support<span>AI</span></span>
+            </a>
+
+            <span class="admin-badge">
+                ADMIN
+            </span>
+
+        </div>
+
+        <nav class="nav-links">
+
+            <a href="admin-dashboard.html" class="active">
+                Dashboard
+            </a>
+
+            <a href="admin-tickets.html">
+                Tickets
+            </a>
+
+            <a href="admin-users.html">
+                Users
+            </a>
+
+            <a href="admin-agents.html">
+                Agents
+            </a>
+
+        </nav>
+
+        <div class="nav-right">
+
+            <div class="admin-profile">
+
+                <div class="profile-avatar" id="profileAvatar">
+                    A
+                </div>
+
+                <div class="profile-info">
+
+                    <span id="adminName">
+                        Admin
+                    </span>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+            <button
+                class="logout-btn"
+                id="logoutButton"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="admin-container">
+
+        <!-- PAGE HEADER -->
+
+        <section class="page-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    ADMIN CONTROL CENTER
+                </p>
+
+                <h1>
+                    Good to see you, <span id="welcomeName">Admin</span>
+                </h1>
+
+                <p class="page-description">
+                    Monitor support operations, manage users and agents,
+                    and track AI-powered ticket analytics.
+                </p>
+
+            </div>
+
+            <div class="header-actions">
+
+                <span
+                    class="last-updated"
+                    id="lastUpdated"
+                >
+                    Loading data...
+                </span>
+
+                <button
+                    class="refresh-btn"
+                    id="refreshButton"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             OVERVIEW CARDS
+        ========================== -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon users-icon">
+                    👥
+                </div>
+
+                <div class="stat-content">
+
+                    <span class="stat-label">
+                        Total Users
+                    </span>
+
+                    <strong id="totalUsers">
+                        0
+                    </strong>
+
+                    <small>
+                        All registered users
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon customer-icon">
+                    👤
+                </div>
+
+                <div class="stat-content">
+
+                    <span class="stat-label">
+                        Customers
+                    </span>
+
+                    <strong id="totalCustomers">
+                        0
+                    </strong>
+
+                    <small>
+                        Support customers
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon agent-icon">
+                    🎧
+                </div>
+
+                <div class="stat-content">
+
+                    <span class="stat-label">
+                        Agents
+                    </span>
+
+                    <strong id="totalAgents">
+                        0
+                    </strong>
+
+                    <small>
+                        Support agents
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card highlight-card">
+
+                <div class="stat-icon ticket-icon">
+                    🎫
+                </div>
+
+                <div class="stat-content">
+
+                    <span class="stat-label">
+                        Total Tickets
+                    </span>
+
+                    <strong id="totalTickets">
+                        0
+                    </strong>
+
+                    <small>
+                        All support requests
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             TICKET STATUS
+        ========================== -->
+
+        <section class="section-block">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-eyebrow">
+                        SUPPORT OPERATIONS
+                    </p>
+
+                    <h2>
+                        Ticket Status
+                    </h2>
+
+                </div>
+
+                <a href="admin-tickets.html" class="view-link">
+                    View all tickets →
+                </a>
+
+            </div>
+
+
+            <div class="status-grid">
+
+                <div class="status-card">
+
+                    <div class="status-top">
+                        <span class="status-dot open"></span>
+
+                        <span>
+                            Open
+                        </span>
+                    </div>
+
+                    <strong id="openTickets">
+                        0
+                    </strong>
+
+                    <p>
+                        Waiting for action
+                    </p>
+
+                </div>
+
+
+                <div class="status-card">
+
+                    <div class="status-top">
+                        <span class="status-dot progress"></span>
+
+                        <span>
+                            In Progress
+                        </span>
+                    </div>
+
+                    <strong id="progressTickets">
+                        0
+                    </strong>
+
+                    <p>
+                        Currently being handled
+                    </p>
+
+                </div>
+
+
+                <div class="status-card">
+
+                    <div class="status-top">
+                        <span class="status-dot resolved"></span>
+
+                        <span>
+                            Resolved
+                        </span>
+                    </div>
+
+                    <strong id="resolvedTickets">
+                        0
+                    </strong>
+
+                    <p>
+                        Successfully resolved
+                    </p>
+
+                </div>
+
+
+                <div class="status-card">
+
+                    <div class="status-top">
+                        <span class="status-dot closed"></span>
+
+                        <span>
+                            Closed
+                        </span>
+                    </div>
+
+                    <strong id="closedTickets">
+                        0
+                    </strong>
+
+                    <p>
+                        Completed tickets
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ANALYTICS
+        ========================== -->
+
+        <section class="analytics-grid">
+
+            <!-- CATEGORY -->
+
+            <div class="analytics-card">
+
+                <div class="analytics-header">
+
+                    <div>
+
+                        <p class="section-eyebrow">
+                            TICKET ANALYTICS
+                        </p>
+
+                        <h2>
+                            Tickets by Category
+                        </h2>
+
+                    </div>
+
+                    <span class="analytics-icon">
+                        ◈
+                    </span>
+
+                </div>
+
+                <div
+                    class="chart-list"
+                    id="categoryChart"
+                >
+                    <div class="chart-loading">
+                        Loading...
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- PRIORITY -->
+
+            <div class="analytics-card">
+
+                <div class="analytics-header">
+
+                    <div>
+
+                        <p class="section-eyebrow">
+                            RISK ANALYSIS
+                        </p>
+
+                        <h2>
+                            Tickets by Priority
+                        </h2>
+
+                    </div>
+
+                    <span class="analytics-icon">
+                        !
+                    </span>
+
+                </div>
+
+                <div
+                    class="chart-list"
+                    id="priorityChart"
+                >
+                    <div class="chart-loading">
+                        Loading...
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             AI + RATING
+        ========================== -->
+
+        <section class="insights-grid">
+
+            <!-- AI -->
+
+            <div class="insight-card ai-card">
+
+                <div class="insight-icon">
+                    ✨
+                </div>
+
+                <div class="insight-content">
+
+                    <p class="section-eyebrow">
+                        ARTIFICIAL INTELLIGENCE
+                    </p>
+
+                    <h2>
+                        AI Ticket Intelligence
+                    </h2>
+
+                    <p>
+                        SupportAI uses Gemini to classify tickets,
+                        identify priority and generate suggested
+                        customer responses for agents.
+                    </p>
+
+                    <div class="ai-number">
+
+                        <strong id="aiTicketCount">
+                            0
+                        </strong>
+
+                        <span>
+                            tickets analyzed by AI
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RATING -->
+
+            <div class="insight-card rating-card">
+
+                <div class="insight-icon">
+                    ★
+                </div>
+
+                <div class="insight-content">
+
+                    <p class="section-eyebrow">
+                        CUSTOMER SATISFACTION
+                    </p>
+
+                    <h2>
+                        Customer Rating
+                    </h2>
+
+                    <div class="rating-display">
+
+                        <strong id="averageRating">
+                            —
+                        </strong>
+
+                        <span>
+                            / 5
+                        </span>
+
+                    </div>
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p>
+                        Average rating across resolved
+                        and closed support tickets.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             AI CATEGORY ANALYTICS
+        ========================== -->
+
+        <section class="section-block">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-eyebrow">
+                        AI INSIGHTS
+                    </p>
+
+                    <h2>
+                        AI Classification Overview
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="ai-overview-grid">
+
+                <div class="ai-overview-card">
+
+                    <h3>
+                        AI Categories
+                    </h3>
+
+                    <div
+                        id="aiCategoryChart"
+                        class="chart-list"
+                    >
+                        <div class="chart-loading">
+                            Loading...
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="ai-overview-card">
+
+                    <h3>
+                        AI Priorities
+                    </h3>
+
+                    <div
+                        id="aiPriorityChart"
+                        class="chart-list"
+                    >
+                        <div class="chart-loading">
+                            Loading...
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             QUICK ACTIONS
+        ========================== -->
+
+        <section class="section-block">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-eyebrow">
+                        MANAGEMENT
+                    </p>
+
+                    <h2>
+                        Quick Actions
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+                <a
+                    href="admin-tickets.html"
+                    class="action-card"
+                >
+
+                    <span class="action-icon">
+                        🎫
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Manage Tickets
+                        </strong>
+
+                        <small>
+                            View, filter and assign tickets
+                        </small>
+
+                    </div>
+
+                    <span class="action-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="admin-users.html"
+                    class="action-card"
+                >
+
+                    <span class="action-icon">
+                        👥
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Manage Users
+                        </strong>
+
+                        <small>
+                            View registered customers and agents
+                        </small>
+
+                    </div>
+
+                    <span class="action-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="admin-agents.html"
+                    class="action-card"
+                >
+
+                    <span class="action-icon">
+                        🎧
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Manage Agents
+                        </strong>
+
+                        <small>
+                            Create and manage support agents
+                        </small>
+
+                    </div>
+
+                    <span class="action-arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ERROR MESSAGE
+        ========================== -->
+
+        <div
+            id="dashboardError"
+            class="dashboard-error"
+            hidden
+        >
+            Unable to load dashboard data.
+        </div>
+
+    </main>
+
+    <script src="js/route-guard.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+
+</body>
+</html>

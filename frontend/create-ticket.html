@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Ticket | SupportAI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/create-ticket.css">
+</head>
+
+<body class="dashboard-page">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-mark">
+                S
+            </div>
+
+            <div>
+                <div class="brand-name">
+                    SupportAI
+                </div>
+
+                <div class="brand-caption">
+                    Customer Portal
+                </div>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="dashboard.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+
+            <a
+                href="tickets.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">◫</span>
+                <span>My Tickets</span>
+            </a>
+
+
+            <a
+                href="create-ticket.html"
+                class="nav-item active"
+            >
+                <span class="nav-icon">＋</span>
+                <span>Create Ticket</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-help">
+
+                <div class="help-icon">
+                    ✦
+                </div>
+
+                <div>
+                    <strong>
+                        Need help?
+                    </strong>
+
+                    <p>
+                        Our support team is here.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <button
+                class="logout-button"
+                id="logoutButton"
+            >
+                <span>↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="dashboard-main create-ticket-main">
+
+        <!-- PAGE HEADER -->
+
+        <header class="create-ticket-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    SUPPORT CENTER
+                </p>
+
+                <h1>
+                    Create a ticket
+                </h1>
+
+                <p class="header-subtitle">
+                    Tell us what you're experiencing and we'll
+                    get the right person on it.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             FORM LAYOUT
+        ========================== -->
+
+        <section class="create-ticket-layout">
+
+
+            <!-- FORM -->
+
+            <div class="create-ticket-card">
+
+                <div class="form-card-header">
+
+                    <div class="form-card-icon">
+                        ＋
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Tell us about your issue
+                        </h2>
+
+                        <p>
+                            Provide as much detail as possible
+                            so our support team can help you faster.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form
+                    id="createTicketForm"
+                    novalidate
+                >
+
+
+                    <!-- TITLE -->
+
+                    <div class="form-group">
+
+                        <label for="title">
+                            Ticket title
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            placeholder="e.g. Unable to access my dashboard"
+                            maxlength="200"
+                            required
+                        >
+
+                        <div class="field-footer">
+
+                            <small>
+                                Give your issue a short, clear title.
+                            </small>
+
+                            <span id="titleCount">
+                                0 / 200
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CATEGORY + PRIORITY -->
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label for="category">
+                                Category
+                                <span>*</span>
+                            </label>
+
+                            <select
+                                id="category"
+                                name="category"
+                                required
+                            >
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option value="technical">
+                                    Technical
+                                </option>
+
+                                <option value="billing">
+                                    Billing
+                                </option>
+
+                                <option value="account">
+                                    Account
+                                </option>
+
+                                <option value="access">
+                                    Access
+                                </option>
+
+                                <option value="hardware">
+                                    Hardware
+                                </option>
+
+                                <option value="software">
+                                    Software
+                                </option>
+
+                                <option value="other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="priority">
+                                Priority
+                                <span>*</span>
+                            </label>
+
+                            <select
+                                id="priority"
+                                name="priority"
+                                required
+                            >
+
+                                <option value="">
+                                    Select priority
+                                </option>
+
+                                <option value="low">
+                                    Low
+                                </option>
+
+                                <option value="medium">
+                                    Medium
+                                </option>
+
+                                <option value="high">
+                                    High
+                                </option>
+
+                                <option value="critical">
+                                    Critical
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group">
+
+                        <label for="description">
+                            Describe the issue
+                            <span>*</span>
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="7"
+                            maxlength="3000"
+                            placeholder="Describe what happened, what you expected to happen, and any steps you've already tried..."
+                            required
+                        ></textarea>
+
+                        <div class="field-footer">
+
+                            <small>
+                                Include error messages or useful details.
+                            </small>
+
+                            <span id="descriptionCount">
+                                0 / 3000
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- IMAGE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Screenshot
+                            <span class="optional">
+                                Optional
+                            </span>
+                        </label>
+
+
+                        <label
+                            for="image"
+                            class="upload-area"
+                            id="uploadArea"
+                        >
+
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/png,image/jpeg,image/jpg,image/webp"
+                                hidden
+                            >
+
+
+                            <div
+                                class="upload-placeholder"
+                                id="uploadPlaceholder"
+                            >
+
+                                <div class="upload-icon">
+                                    ↑
+                                </div>
+
+                                <strong>
+                                    Upload a screenshot
+                                </strong>
+
+                                <span>
+                                    PNG, JPG or WEBP · Max 5 MB
+                                </span>
+
+                            </div>
+
+
+                            <div
+                                class="image-preview-container"
+                                id="imagePreviewContainer"
+                                hidden
+                            >
+
+                                <img
+                                    id="imagePreview"
+                                    alt="Selected screenshot preview"
+                                >
+
+                                <div class="preview-details">
+
+                                    <strong id="imageName">
+                                        image.png
+                                    </strong>
+
+                                    <span id="imageSize">
+                                        0 KB
+                                    </span>
+
+                                    <button
+                                        type="button"
+                                        id="removeImage"
+                                        class="remove-image"
+                                    >
+                                        Remove
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- ERROR -->
+
+                    <div
+                        id="formError"
+                        class="form-error"
+                        hidden
+                    ></div>
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="form-actions">
+
+                        <a
+                            href="tickets.html"
+                            class="cancel-button"
+                        >
+                            Cancel
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="submit-ticket-button"
+                            id="submitTicketButton"
+                        >
+
+                            <span id="submitButtonText">
+                                Create ticket
+                            </span>
+
+                            <span
+                                class="button-loader"
+                                id="submitLoader"
+                                hidden
+                            ></span>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- RIGHT INFO PANEL -->
+
+            <aside class="ticket-info-panel">
+
+
+                <!-- AI CARD -->
+
+                <div class="ai-info-card">
+
+                    <div class="ai-card-orb">
+                        ✦
+                    </div>
+
+                    <span class="ai-label">
+                        AI-ASSISTED SUPPORT
+                    </span>
+
+                    <h3>
+                        Faster routing.
+                        Better support.
+                    </h3>
+
+                    <p>
+                        SupportAI can analyze your ticket and
+                        help our team understand the issue,
+                        priority and best response.
+                    </p>
+
+                </div>
+
+
+                <!-- TIPS -->
+
+                <div class="tips-card">
+
+                    <p class="panel-label">
+                        TICKET TIPS
+                    </p>
+
+                    <h3>
+                        Get help faster
+                    </h3>
+
+
+                    <div class="tip-item">
+
+                        <div class="tip-number">
+                            01
+                        </div>
+
+                        <div>
+                            <strong>
+                                Be specific
+                            </strong>
+
+                            <p>
+                                Explain exactly what went wrong.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tip-item">
+
+                        <div class="tip-number">
+                            02
+                        </div>
+
+                        <div>
+                            <strong>
+                                Add context
+                            </strong>
+
+                            <p>
+                                Mention what you were doing
+                                before the problem occurred.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tip-item">
+
+                        <div class="tip-number">
+                            03
+                        </div>
+
+                        <div>
+                            <strong>
+                                Add a screenshot
+                            </strong>
+
+                            <p>
+                                A screenshot can help identify
+                                visual errors quickly.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RESPONSE TIME -->
+
+                <div class="response-card">
+
+                    <div class="response-icon">
+                        ◷
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Typical response
+                        </strong>
+
+                        <span>
+                            Our team will review your ticket
+                            as soon as possible.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+    </main>
+
+    <script src="js/route-guard.js"></script>
+    <script src="js/create-ticket.js"></script>
+
+</body>
+</html>

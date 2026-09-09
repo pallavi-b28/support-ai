@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Ticket Details | SupportAI</title>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/dashboard.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/ticket-details.css"
+    >
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-mark">
+                S
+            </div>
+
+            <div>
+
+                <div class="brand-name">
+                    SupportAI
+                </div>
+
+                <div class="brand-caption">
+                    Customer Portal
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="dashboard.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">
+                    ⌂
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+            </a>
+
+
+            <a
+                href="tickets.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">
+                    ◫
+                </span>
+
+                <span>
+                    My Tickets
+                </span>
+            </a>
+
+
+            <a
+                href="create-ticket.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">
+                    ＋
+                </span>
+
+                <span>
+                    Create Ticket
+                </span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-help">
+
+                <div class="help-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <strong>
+                        Need help?
+                    </strong>
+
+                    <p>
+                        Our support team is here.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="logout-button"
+                id="logoutButton"
+            >
+
+                <span>
+                    ↪
+                </span>
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="dashboard-main ticket-details-main">
+
+
+        <!-- =========================
+             BACK
+        ========================== -->
+
+        <a
+            href="tickets.html"
+            class="back-link"
+        >
+            ← Back to my tickets
+        </a>
+
+
+
+        <!-- =========================
+             LOADING
+        ========================== -->
+
+        <div
+            id="loadingState"
+            class="ticket-loading"
+        >
+
+            <div class="loading-spinner"></div>
+
+            <span>
+                Loading ticket...
+            </span>
+
+        </div>
+
+
+
+        <!-- =========================
+             ERROR
+        ========================== -->
+
+        <div
+            id="errorState"
+            class="ticket-page-error"
+            hidden
+        ></div>
+
+
+
+        <!-- =========================
+             TICKET CONTENT
+        ========================== -->
+
+        <div
+            id="ticketContent"
+            hidden
+        >
+
+
+            <!-- =========================
+                 HEADER
+            ========================== -->
+
+            <header class="ticket-detail-header">
+
+                <div class="ticket-heading">
+
+                    <div class="ticket-number">
+                        TICKET #<span id="ticketId"></span>
+                    </div>
+
+
+                    <h1 id="ticketTitle">
+                        Ticket title
+                    </h1>
+
+
+                    <p id="ticketCreated">
+                        Created date
+                    </p>
+
+                </div>
+
+
+                <div class="ticket-header-status">
+
+                    <span
+                        id="ticketStatus"
+                        class="status-badge"
+                    >
+                        Open
+                    </span>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- =========================
+                 MAIN GRID
+            ========================== -->
+
+            <section class="ticket-detail-grid">
+
+
+                <!-- =========================
+                     LEFT COLUMN
+                ========================== -->
+
+                <div class="ticket-detail-left">
+
+
+                    <!-- DESCRIPTION -->
+
+                    <article class="detail-card">
+
+                        <div class="detail-card-header">
+
+                            <div>
+
+                                <p class="panel-label">
+                                    ISSUE
+                                </p>
+
+                                <h2>
+                                    Description
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <p
+                            id="ticketDescription"
+                            class="ticket-description"
+                        ></p>
+
+                    </article>
+
+
+
+                    <!-- SCREENSHOT -->
+
+                    <article
+                        id="imageCard"
+                        class="detail-card"
+                        hidden
+                    >
+
+                        <div class="detail-card-header">
+
+                            <div>
+
+                                <p class="panel-label">
+                                    ATTACHMENT
+                                </p>
+
+                                <h2>
+                                    Screenshot
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="ticket-image-wrapper">
+
+                            <img
+                                id="ticketImage"
+                                alt="Ticket screenshot"
+                            >
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- AI ANALYSIS -->
+
+                    <article
+                        id="aiCard"
+                        class="detail-card ai-analysis-card"
+                        hidden
+                    >
+
+                        <div class="detail-card-header">
+
+                            <div>
+
+                                <p class="panel-label">
+                                    SUPPORTAI INTELLIGENCE
+                                </p>
+
+                                <h2>
+                                    AI analysis
+                                </h2>
+
+                            </div>
+
+
+                            <span class="ai-live-badge">
+                                ✦ AI
+                            </span>
+
+                        </div>
+
+
+                        <div class="ai-analysis-grid">
+
+
+                            <div class="ai-result">
+
+                                <span>
+                                    AI category
+                                </span>
+
+                                <strong id="aiCategory">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="ai-result">
+
+                                <span>
+                                    AI priority
+                                </span>
+
+                                <strong id="aiPriority">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="ai-response">
+
+                            <div class="ai-response-icon">
+                                ✦
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Suggested response
+                                </span>
+
+                                <p
+                                    id="aiResponse"
+                                ></p>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- COMMENTS -->
+
+                    <article class="detail-card comments-card">
+
+                        <div class="detail-card-header">
+
+                            <div>
+
+                                <p class="panel-label">
+                                    CONVERSATION
+                                </p>
+
+                                <h2>
+                                    Support conversation
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="commentsList"
+                            class="comments-list"
+                        >
+
+                            <div class="comments-loading">
+                                Loading conversation...
+                            </div>
+
+                        </div>
+
+
+                        <!-- COMMENT FORM -->
+
+                        <form
+                            id="commentForm"
+                            class="comment-form"
+                        >
+
+                            <textarea
+                                id="commentMessage"
+                                placeholder="Write a message to the support team..."
+                                rows="3"
+                                maxlength="2000"
+                                required
+                            ></textarea>
+
+
+                            <div class="comment-form-bottom">
+
+                                <span>
+                                    Press send to add your message.
+                                </span>
+
+
+                                <button
+                                    type="submit"
+                                    id="commentButton"
+                                >
+                                    Send message
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </article>
+
+
+
+                    <!-- RATING -->
+
+                    <article
+                        id="ratingCard"
+                        class="detail-card rating-card"
+                        hidden
+                    >
+
+                        <div class="detail-card-header">
+
+                            <div>
+
+                                <p class="panel-label">
+                                    YOUR FEEDBACK
+                                </p>
+
+                                <h2>
+                                    How did we do?
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="rating-intro">
+                            Your ticket has been resolved.
+                            Let us know how your support experience was.
+                        </p>
+
+
+                        <div
+                            id="ratingStars"
+                            class="rating-stars"
+                        >
+
+                            <button
+                                type="button"
+                                data-rating="1"
+                            >
+                                ★
+                            </button>
+
+                            <button
+                                type="button"
+                                data-rating="2"
+                            >
+                                ★
+                            </button>
+
+                            <button
+                                type="button"
+                                data-rating="3"
+                            >
+                                ★
+                            </button>
+
+                            <button
+                                type="button"
+                                data-rating="4"
+                            >
+                                ★
+                            </button>
+
+                            <button
+                                type="button"
+                                data-rating="5"
+                            >
+                                ★
+                            </button>
+
+                        </div>
+
+
+                        <textarea
+                            id="ratingFeedback"
+                            placeholder="Tell us about your experience (optional)"
+                            rows="3"
+                            maxlength="1000"
+                        ></textarea>
+
+
+                        <button
+                            type="button"
+                            id="submitRating"
+                            class="submit-rating-button"
+                        >
+                            Submit rating
+                        </button>
+
+
+                        <div
+                            id="ratingMessage"
+                            class="rating-message"
+                            hidden
+                        ></div>
+
+                    </article>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     RIGHT COLUMN
+                ========================== -->
+
+                <aside class="ticket-detail-right">
+
+
+                    <!-- TICKET INFORMATION -->
+
+                    <div class="detail-card">
+
+                        <p class="panel-label">
+                            TICKET INFORMATION
+                        </p>
+
+
+                        <div class="ticket-info-list">
+
+
+                            <div class="ticket-info-row">
+
+                                <span>
+                                    Status
+                                </span>
+
+                                <strong
+                                    id="sideStatus"
+                                >
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="ticket-info-row">
+
+                                <span>
+                                    Category
+                                </span>
+
+                                <strong
+                                    id="sideCategory"
+                                >
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="ticket-info-row">
+
+                                <span>
+                                    Priority
+                                </span>
+
+                                <strong
+                                    id="sidePriority"
+                                >
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="ticket-info-row">
+
+                                <span>
+                                    Assigned agent
+                                </span>
+
+                                <strong
+                                    id="sideAgent"
+                                >
+                                    Not assigned
+                                </strong>
+
+                            </div>
+
+
+                            <div class="ticket-info-row">
+
+                                <span>
+                                    Created
+                                </span>
+
+                                <strong
+                                    id="sideCreated"
+                                >
+                                    —
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STATUS TIMELINE -->
+
+                    <div class="detail-card">
+
+                        <p class="panel-label">
+                            TICKET JOURNEY
+                        </p>
+
+
+                        <div class="ticket-timeline">
+
+
+                            <div
+                                class="timeline-item active"
+                                id="timelineOpen"
+                            >
+
+                                <div class="timeline-dot">
+                                    ✓
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Ticket created
+                                    </strong>
+
+                                    <span>
+                                        Your request was received.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="timeline-item"
+                                id="timelineProgress"
+                            >
+
+                                <div class="timeline-dot">
+                                    2
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        In progress
+                                    </strong>
+
+                                    <span>
+                                        An agent is working on it.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="timeline-item"
+                                id="timelineResolved"
+                            >
+
+                                <div class="timeline-dot">
+                                    3
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Resolved
+                                    </strong>
+
+                                    <span>
+                                        Your issue has been resolved.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="timeline-item"
+                                id="timelineClosed"
+                            >
+
+                                <div class="timeline-dot">
+                                    4
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Closed
+                                    </strong>
+
+                                    <span>
+                                        Ticket completed.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- HELP -->
+
+                    <div class="ticket-help-card">
+
+                        <div class="ticket-help-icon">
+                            ✦
+                        </div>
+
+                        <strong>
+                            Need more help?
+                        </strong>
+
+                        <p>
+                            Add a message to your support
+                            conversation and our team will
+                            get back to you.
+                        </p>
+
+                    </div>
+
+                </aside>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <script src="js/route-guard.js"></script>
+    <script src="js/ticket-details.js"></script>
+
+</body>
+
+</html>

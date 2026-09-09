@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Tickets | SupportAI</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin-tickets.css">
+</head>
+
+<body>
+
+<header class="admin-navbar">
+
+    <div class="nav-left">
+
+        <a href="admin-dashboard.html" class="brand">
+            <span class="brand-icon">✦</span>
+            <span>Support<span>AI</span></span>
+        </a>
+
+        <span class="admin-badge">ADMIN</span>
+
+    </div>
+
+    <nav class="nav-links">
+
+        <a href="admin-dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="admin-tickets.html" class="active">
+            Tickets
+        </a>
+
+        <a href="admin-users.html">
+            Users
+        </a>
+
+        <a href="admin-agents.html">
+            Agents
+        </a>
+
+    </nav>
+
+    <div class="nav-right">
+
+        <div class="admin-profile">
+
+            <div class="profile-avatar" id="profileAvatar">
+                A
+            </div>
+
+            <div class="profile-info">
+
+                <span id="adminName">
+                    Admin
+                </span>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+        </div>
+
+        <button
+            class="logout-btn"
+            id="logoutButton"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="admin-container">
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div>
+
+            <p class="eyebrow">
+                ADMIN MANAGEMENT
+            </p>
+
+            <h1>
+                Manage Tickets
+            </h1>
+
+            <p class="page-description">
+                View, monitor and assign customer support
+                tickets across the organization.
+            </p>
+
+        </div>
+
+        <a
+            href="admin-dashboard.html"
+            class="back-link"
+        >
+            ← Dashboard
+        </a>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="summary-grid">
+
+        <div class="summary-card">
+
+            <span>
+                Total Tickets
+            </span>
+
+            <strong id="totalTickets">
+                0
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>
+                Open
+            </span>
+
+            <strong id="openTickets">
+                0
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>
+                In Progress
+            </span>
+
+            <strong id="progressTickets">
+                0
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>
+                Resolved
+            </span>
+
+            <strong id="resolvedTickets">
+                0
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>
+                Closed
+            </span>
+
+            <strong id="closedTickets">
+                0
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- FILTERS -->
+
+    <section class="ticket-panel">
+
+        <div class="filter-header">
+
+            <div>
+
+                <p class="section-eyebrow">
+                    SUPPORT QUEUE
+                </p>
+
+                <h2>
+                    All Tickets
+                </h2>
+
+            </div>
+
+            <span
+                class="result-count"
+                id="resultCount"
+            >
+                0 tickets
+            </span>
+
+        </div>
+
+
+        <div class="filters">
+
+            <div class="search-box">
+
+                <span>
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search tickets..."
+                >
+
+            </div>
+
+
+            <select id="statusFilter">
+
+                <option value="all">
+                    All Statuses
+                </option>
+
+                <option value="open">
+                    Open
+                </option>
+
+                <option value="in_progress">
+                    In Progress
+                </option>
+
+                <option value="resolved">
+                    Resolved
+                </option>
+
+                <option value="closed">
+                    Closed
+                </option>
+
+            </select>
+
+
+            <select id="priorityFilter">
+
+                <option value="all">
+                    All Priorities
+                </option>
+
+                <option value="critical">
+                    Critical
+                </option>
+
+                <option value="high">
+                    High
+                </option>
+
+                <option value="medium">
+                    Medium
+                </option>
+
+                <option value="low">
+                    Low
+                </option>
+
+            </select>
+
+
+            <select id="categoryFilter">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+                <option value="technical">
+                    Technical
+                </option>
+
+                <option value="billing">
+                    Billing
+                </option>
+
+                <option value="account">
+                    Account
+                </option>
+
+                <option value="access">
+                    Access
+                </option>
+
+                <option value="hardware">
+                    Hardware
+                </option>
+
+                <option value="software">
+                    Software
+                </option>
+
+                <option value="other">
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            TICKET
+                        </th>
+
+                        <th>
+                            CATEGORY
+                        </th>
+
+                        <th>
+                            PRIORITY
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                        <th>
+                            CUSTOMER
+                        </th>
+
+                        <th>
+                            ASSIGNED AGENT
+                        </th>
+
+                        <th>
+                            CREATED
+                        </th>
+
+                        <th>
+                            ACTION
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="ticketsTableBody">
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="loading-cell"
+                        >
+                            Loading tickets...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div
+            id="emptyState"
+            class="empty-state"
+            hidden
+        >
+
+            <div class="empty-icon">
+                🎫
+            </div>
+
+            <h3>
+                No tickets found
+            </h3>
+
+            <p>
+                Try changing your search or filters.
+            </p>
+
+        </div>
+
+
+        <div
+            id="errorMessage"
+            class="error-message"
+            hidden
+        ></div>
+
+    </section>
+
+</main>
+
+
+<!-- ASSIGN MODAL -->
+
+<div
+    class="modal-overlay"
+    id="assignModal"
+    hidden
+>
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            id="closeModal"
+        >
+            ×
+        </button>
+
+        <p class="section-eyebrow">
+            TICKET ASSIGNMENT
+        </p>
+
+        <h2>
+            Assign Ticket
+        </h2>
+
+        <p class="modal-description">
+            Select an available support agent for this ticket.
+        </p>
+
+        <div class="selected-ticket">
+
+            <span>
+                Ticket
+            </span>
+
+            <strong id="selectedTicketTitle">
+                —
+            </strong>
+
+        </div>
+
+
+        <label for="agentSelect">
+            Support Agent
+        </label>
+
+        <select id="agentSelect">
+
+            <option value="">
+                Select an agent
+            </option>
+
+        </select>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel-btn"
+                id="cancelAssign"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="assign-btn"
+                id="confirmAssign"
+            >
+                Assign Ticket
+            </button>
+
+        </div>
+
+        <div
+            id="assignError"
+            class="modal-error"
+            hidden
+        ></div>
+
+    </div>
+
+</div>
+
+<script src="js/route-guard.js"></script>
+<script src="js/admin-tickets.js"></script>
+
+</body>
+</html>

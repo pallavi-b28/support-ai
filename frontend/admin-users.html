@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Users | SupportAI</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin-users.css">
+</head>
+
+<body>
+
+<header class="admin-navbar">
+
+    <div class="nav-left">
+
+        <a href="admin-dashboard.html" class="brand">
+            <span class="brand-icon">✦</span>
+            <span>Support<span>AI</span></span>
+        </a>
+
+        <span class="admin-badge">
+            ADMIN
+        </span>
+
+    </div>
+
+
+    <nav class="nav-links">
+
+        <a href="admin-dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="admin-tickets.html">
+            Tickets
+        </a>
+
+        <a href="admin-users.html" class="active">
+            Users
+        </a>
+
+        <a href="admin-agents.html">
+            Agents
+        </a>
+
+    </nav>
+
+
+    <div class="nav-right">
+
+        <div class="admin-profile">
+
+            <div class="profile-avatar" id="profileAvatar">
+                A
+            </div>
+
+            <div class="profile-info">
+
+                <span id="adminName">
+                    Admin
+                </span>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            id="logoutButton"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="admin-container">
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div>
+
+            <p class="eyebrow">
+                ADMIN MANAGEMENT
+            </p>
+
+            <h1>
+                Manage Users
+            </h1>
+
+            <p class="page-description">
+                View and monitor customers and support agents
+                registered in the SupportAI platform.
+            </p>
+
+        </div>
+
+
+        <a
+            href="admin-dashboard.html"
+            class="back-link"
+        >
+            ← Dashboard
+        </a>
+
+    </section>
+
+
+    <!-- USER SUMMARY -->
+
+    <section class="summary-grid">
+
+        <div class="summary-card">
+
+            <div class="summary-icon users">
+                👥
+            </div>
+
+            <div>
+
+                <span>
+                    Total Users
+                </span>
+
+                <strong id="totalUsers">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon customers">
+                👤
+            </div>
+
+            <div>
+
+                <span>
+                    Customers
+                </span>
+
+                <strong id="totalCustomers">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon agents">
+                🎧
+            </div>
+
+            <div>
+
+                <span>
+                    Agents
+                </span>
+
+                <strong id="totalAgents">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- USER PANEL -->
+
+    <section class="users-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <p class="section-eyebrow">
+                    USER DIRECTORY
+                </p>
+
+                <h2>
+                    Registered Users
+                </h2>
+
+            </div>
+
+
+            <span
+                class="result-count"
+                id="resultCount"
+            >
+                0 users
+            </span>
+
+        </div>
+
+
+        <!-- FILTERS -->
+
+        <div class="filters">
+
+            <div class="search-box">
+
+                <span>
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by name or email..."
+                >
+
+            </div>
+
+
+            <select id="roleFilter">
+
+                <option value="all">
+                    All Roles
+                </option>
+
+                <option value="customer">
+                    Customer
+                </option>
+
+                <option value="agent">
+                    Agent
+                </option>
+
+                <option value="admin">
+                    Admin
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            USER
+                        </th>
+
+                        <th>
+                            EMAIL
+                        </th>
+
+                        <th>
+                            ROLE
+                        </th>
+
+                        <th>
+                            USER ID
+                        </th>
+
+                        <th>
+                            REGISTERED
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="usersTableBody">
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="loading-cell"
+                        >
+                            Loading users...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- EMPTY -->
+
+        <div
+            id="emptyState"
+            class="empty-state"
+            hidden
+        >
+
+            <div class="empty-icon">
+                👥
+            </div>
+
+            <h3>
+                No users found
+            </h3>
+
+            <p>
+                Try changing your search or role filter.
+            </p>
+
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            id="errorMessage"
+            class="error-message"
+            hidden
+        ></div>
+
+    </section>
+
+
+    <!-- INFORMATION -->
+
+    <section class="info-card">
+
+        <div class="info-icon">
+            ℹ
+        </div>
+
+        <div>
+
+            <h3>
+                User Management
+            </h3>
+
+            <p>
+                Customer accounts are created through the
+                registration system. Support agents are managed
+                separately from the Agents section.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="js/route-guard.js"></script>
+<script src="js/admin-users.js"></script>
+
+</body>
+</html>

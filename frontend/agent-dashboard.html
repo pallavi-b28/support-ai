@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Agent Dashboard | SupportAI</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/agent-dashboard.css"
+    >
+</head>
+
+<body class="agent-page">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                S
+            </div>
+
+            <div class="brand-text">
+                <strong>SupportAI</strong>
+                <span>Agent Portal</span>
+            </div>
+
+        </div>
+
+
+        <!-- Navigation -->
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="agent-dashboard.html"
+                class="nav-item active"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+
+            <a
+                href="agent-tickets.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">▣</span>
+                <span>My Tickets</span>
+            </a>
+
+
+            <a
+                href="agent-all-tickets.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">◫</span>
+                <span>All Tickets</span>
+            </a>
+
+        </nav>
+
+
+        <!-- Sidebar bottom -->
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    ✦
+                </div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <span>SupportAI workspace</span>
+                </div>
+
+            </div>
+
+
+            <button
+                class="logout-button"
+                id="logoutButton"
+            >
+                <span>↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-content">
+
+        <!-- Top bar -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <p class="eyebrow">
+                    AGENT WORKSPACE
+                </p>
+
+                <h1>
+                    Good to see you,
+                    <span id="agentName">
+                        Agent
+                    </span>
+                </h1>
+
+                <p class="page-subtitle">
+                    Manage your assigned support tickets
+                    and resolve customer issues efficiently.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    Online
+                </div>
+
+                <div class="agent-avatar" id="agentAvatar">
+                    A
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             STATISTICS
+        ========================== -->
+
+        <section class="stats-grid">
+
+            <!-- Total -->
+
+            <div class="stat-card">
+
+                <div class="stat-card-top">
+
+                    <span class="stat-label">
+                        TOTAL TICKETS
+                    </span>
+
+                    <span class="stat-icon">
+                        ◫
+                    </span>
+
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalTickets"
+                >
+                    0
+                </div>
+
+                <p class="stat-description">
+                    Tickets assigned to you
+                </p>
+
+            </div>
+
+
+            <!-- Open -->
+
+            <div class="stat-card">
+
+                <div class="stat-card-top">
+
+                    <span class="stat-label">
+                        OPEN
+                    </span>
+
+                    <span class="stat-icon">
+                        ○
+                    </span>
+
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="openTickets"
+                >
+                    0
+                </div>
+
+                <p class="stat-description">
+                    Waiting for action
+                </p>
+
+            </div>
+
+
+            <!-- In Progress -->
+
+            <div class="stat-card">
+
+                <div class="stat-card-top">
+
+                    <span class="stat-label">
+                        IN PROGRESS
+                    </span>
+
+                    <span class="stat-icon">
+                        ◌
+                    </span>
+
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="inProgressTickets"
+                >
+                    0
+                </div>
+
+                <p class="stat-description">
+                    Currently being handled
+                </p>
+
+            </div>
+
+
+            <!-- Resolved -->
+
+            <div class="stat-card">
+
+                <div class="stat-card-top">
+
+                    <span class="stat-label">
+                        RESOLVED
+                    </span>
+
+                    <span class="stat-icon">
+                        ✓
+                    </span>
+
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="resolvedTickets"
+                >
+                    0
+                </div>
+
+                <p class="stat-description">
+                    Successfully resolved
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SECONDARY STATS
+        ========================== -->
+
+        <section class="secondary-grid">
+
+            <div class="mini-stat-card">
+
+                <div class="mini-stat-icon">
+                    ★
+                </div>
+
+                <div>
+
+                    <span class="mini-stat-label">
+                        CUSTOMER RATING
+                    </span>
+
+                    <strong id="averageRating">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="mini-stat-card">
+
+                <div class="mini-stat-icon">
+                    AI
+                </div>
+
+                <div>
+
+                    <span class="mini-stat-label">
+                        AI ANALYZED
+                    </span>
+
+                    <strong id="aiAnalyzedTickets">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="mini-stat-card">
+
+                <div class="mini-stat-icon">
+                    ◈
+                </div>
+
+                <div>
+
+                    <span class="mini-stat-label">
+                        CLOSED
+                    </span>
+
+                    <strong id="closedTickets">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             TICKET SECTION
+        ========================== -->
+
+        <section class="tickets-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        WORK QUEUE
+                    </p>
+
+                    <h2>
+                        Assigned tickets
+                    </h2>
+
+                    <p>
+                        Tickets currently assigned to your account.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="agent-tickets.html"
+                    class="view-all-button"
+                >
+                    View all
+                    <span>→</span>
+                </a>
+
+            </div>
+
+
+            <!-- Loading -->
+
+            <div
+                class="dashboard-loading"
+                id="dashboardLoading"
+            >
+
+                <div class="loading-spinner"></div>
+
+                <span>
+                    Loading your workspace...
+                </span>
+
+            </div>
+
+
+            <!-- Error -->
+
+            <div
+                class="dashboard-error"
+                id="dashboardError"
+                hidden
+            >
+
+                <div class="error-icon">
+                    !
+                </div>
+
+                <div>
+
+                    <strong>
+                        Unable to load dashboard
+                    </strong>
+
+                    <p id="dashboardErrorMessage">
+                        Something went wrong.
+                    </p>
+
+                </div>
+
+                <button
+                    id="retryButton"
+                    type="button"
+                >
+                    Retry
+                </button>
+
+            </div>
+
+
+            <!-- Ticket table -->
+
+            <div
+                class="ticket-table-wrapper"
+                id="ticketTableWrapper"
+                hidden
+            >
+
+                <table class="ticket-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                TICKET
+                            </th>
+
+                            <th>
+                                CATEGORY
+                            </th>
+
+                            <th>
+                                PRIORITY
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                CREATED
+                            </th>
+
+                            <th>
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="ticketTableBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- Empty -->
+
+            <div
+                class="empty-state"
+                id="emptyState"
+                hidden
+            >
+
+                <div class="empty-icon">
+                    ✓
+                </div>
+
+                <h3>
+                    Your queue is clear
+                </h3>
+
+                <p>
+                    You currently have no tickets assigned to you.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ANALYTICS
+        ========================== -->
+
+        <section class="analytics-grid">
+
+            <!-- Priority -->
+
+            <div class="analytics-card">
+
+                <div class="analytics-header">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            DISTRIBUTION
+                        </p>
+
+                        <h3>
+                            Tickets by priority
+                        </h3>
+
+                    </div>
+
+                    <span class="analytics-icon">
+                        ◈
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="distribution-list"
+                    id="priorityDistribution"
+                >
+
+                    <div class="distribution-empty">
+                        No priority data yet
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Category -->
+
+            <div class="analytics-card">
+
+                <div class="analytics-header">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            CATEGORIES
+                        </p>
+
+                        <h3>
+                            Tickets by category
+                        </h3>
+
+                    </div>
+
+                    <span class="analytics-icon">
+                        ◫
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="distribution-list"
+                    id="categoryDistribution"
+                >
+
+                    <div class="distribution-empty">
+                        No category data yet
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             AI INFORMATION
+        ========================== -->
+
+        <section class="ai-banner">
+
+            <div class="ai-banner-icon">
+                ✦
+            </div>
+
+            <div class="ai-banner-content">
+
+                <p class="eyebrow">
+                    AI-POWERED SUPPORT
+                </p>
+
+                <h2>
+                    Resolve tickets faster with SupportAI
+                </h2>
+
+                <p>
+                    Use AI to automatically analyze ticket descriptions,
+                    identify category and priority, and generate a
+                    professional response suggestion.
+                </p>
+
+            </div>
+
+
+            <a
+                href="agent-tickets.html"
+                class="ai-banner-button"
+            >
+                Open ticket queue
+                <span>→</span>
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+    <script src="js/route-guard.js"></script>
+    <script src="js/agent-dashboard.js"></script>
+
+</body>
+</html>

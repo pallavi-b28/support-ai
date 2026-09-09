@@ -1,0 +1,562 @@
+/* =========================================
+   SUPPORTAI REGISTER PAGE
+   ========================================= */
+
+.register-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(99, 102, 241, 0.12),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(59, 130, 246, 0.10),
+            transparent 35%
+        ),
+        #070b14;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+   ========================================= */
+
+.register-container {
+    width: min(1100px, 100%);
+    min-height: 700px;
+
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+
+    background: rgba(13, 18, 31, 0.88);
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.45);
+
+    backdrop-filter: blur(20px);
+}
+
+
+/* =========================================
+   LEFT BRAND SECTION
+   ========================================= */
+
+.register-brand {
+    padding: 60px;
+
+    display: flex;
+    flex-direction: column;
+
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(99, 102, 241, 0.10),
+            transparent 55%
+        );
+}
+
+
+/* LOGO */
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: #ffffff;
+
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+
+.brand-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: linear-gradient(
+        135deg,
+        #6366f1,
+        #8b5cf6
+    );
+
+    color: white;
+
+    font-size: 18px;
+    font-weight: 800;
+
+    box-shadow:
+        0 8px 25px rgba(99, 102, 241, 0.30);
+}
+
+
+/* CONTENT */
+
+.brand-content {
+    margin-top: auto;
+    margin-bottom: 55px;
+}
+
+.eyebrow {
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 1.8px;
+
+    color: #818cf8;
+}
+
+.brand-content h1 {
+    margin: 0;
+
+    max-width: 480px;
+
+    color: #ffffff;
+
+    font-size: clamp(38px, 4vw, 56px);
+    line-height: 1.05;
+
+    letter-spacing: -2.5px;
+}
+
+.brand-content h1 span {
+    color: #818cf8;
+}
+
+.brand-content p {
+    max-width: 450px;
+
+    margin-top: 25px;
+
+    color: #94a3b8;
+
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+
+/* FEATURES */
+
+.brand-features {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.feature-icon {
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(99, 102, 241, 0.12);
+
+    border: 1px solid rgba(129, 140, 248, 0.18);
+
+    color: #818cf8;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.feature-item strong {
+    display: block;
+
+    color: #e2e8f0;
+
+    font-size: 14px;
+}
+
+.feature-item span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   RIGHT REGISTER CARD
+   ========================================= */
+
+.register-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 60px 55px;
+
+    background: rgba(8, 12, 22, 0.55);
+}
+
+
+/* HEADER */
+
+.register-header {
+    margin-bottom: 30px;
+}
+
+.register-header h2 {
+    margin: 0;
+
+    color: #f8fafc;
+
+    font-size: 30px;
+    line-height: 1.2;
+
+    letter-spacing: -0.8px;
+}
+
+.register-header p {
+    margin-top: 10px;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.mobile-brand {
+    display: none;
+}
+
+
+/* =========================================
+   FORM
+   ========================================= */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #cbd5e1;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 15px;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 10px;
+
+    outline: none;
+
+    background: rgba(15, 23, 42, 0.75);
+
+    color: #f8fafc;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.form-group input::placeholder {
+    color: #475569;
+}
+
+.form-group input:focus {
+    border-color: rgba(99, 102, 241, 0.65);
+
+    background: rgba(15, 23, 42, 0.95);
+
+    box-shadow:
+        0 0 0 3px rgba(99, 102, 241, 0.10);
+}
+
+
+/* PASSWORD */
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 70px;
+}
+
+.password-toggle {
+    position: absolute;
+
+    right: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+    background: transparent;
+
+    color: #818cf8;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    color: #a5b4fc;
+}
+
+.field-hint {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #475569;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   MESSAGES
+   ========================================= */
+
+.form-message {
+    margin-bottom: 16px;
+
+    padding: 11px 13px;
+
+    border-radius: 9px;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.error-message {
+    border: 1px solid rgba(239, 68, 68, 0.20);
+
+    background: rgba(239, 68, 68, 0.08);
+
+    color: #fca5a5;
+}
+
+.success-message {
+    border: 1px solid rgba(34, 197, 94, 0.20);
+
+    background: rgba(34, 197, 94, 0.08);
+
+    color: #86efac;
+}
+
+
+/* =========================================
+   BUTTON
+   ========================================= */
+
+.register-button {
+    width: 100%;
+    height: 49px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #6366f1,
+        #7c3aed
+    );
+
+    color: white;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 30px rgba(99, 102, 241, 0.20);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.register-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 14px 35px rgba(99, 102, 241, 0.30);
+}
+
+.register-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+
+/* LOADER */
+
+.button-loader {
+    width: 15px;
+    height: 15px;
+
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+
+    border-radius: 50%;
+
+    animation: registerSpin 0.7s linear infinite;
+}
+
+@keyframes registerSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================
+   LOGIN LINK
+   ========================================= */
+
+.login-link {
+    margin-top: 24px;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+.login-link a {
+    margin-left: 4px;
+
+    color: #818cf8;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    color: #a5b4fc;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 850px) {
+
+    .register-page {
+        padding: 20px;
+    }
+
+    .register-container {
+        grid-template-columns: 1fr;
+
+        min-height: auto;
+    }
+
+    .register-brand {
+        display: none;
+    }
+
+    .register-card {
+        padding: 45px 30px;
+    }
+
+    .mobile-brand {
+        display: block;
+
+        margin-bottom: 18px;
+
+        color: #818cf8;
+
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .register-page {
+        padding: 10px;
+    }
+
+    .register-container {
+        border-radius: 18px;
+    }
+
+    .register-card {
+        padding: 35px 22px;
+    }
+
+    .register-header h2 {
+        font-size: 26px;
+    }
+}
+
+
+/* IMPORTANT */
+
+[hidden] {
+    display: none !important;
+}

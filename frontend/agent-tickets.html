@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Assigned Tickets | SupportAI</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/agent-tickets.css">
+</head>
+
+<body>
+
+    <div class="agent-tickets-page">
+
+        <!-- NAVBAR -->
+        <header class="agent-navbar">
+
+            <div class="navbar-left">
+
+                <a href="agent-dashboard.html" class="brand">
+                    <span class="brand-icon">S</span>
+                    <span>SupportAI</span>
+                </a>
+
+                <nav class="nav-links">
+                    <a href="agent-dashboard.html">
+                        Dashboard
+                    </a>
+
+                    <a href="agent-tickets.html" class="active">
+                        Assigned Tickets
+                    </a>
+                </nav>
+
+            </div>
+
+            <div class="navbar-right">
+
+                <div class="agent-profile">
+                    <div class="profile-avatar" id="profileAvatar">
+                        A
+                    </div>
+
+                    <div class="profile-info">
+                        <strong id="agentName">
+                            Agent
+                        </strong>
+
+                        <span>
+                            Support Agent
+                        </span>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    id="logoutButton"
+                    class="logout-button"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- MAIN -->
+        <main class="tickets-main">
+
+            <!-- PAGE HEADER -->
+            <section class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        SUPPORT OPERATIONS
+                    </span>
+
+                    <h1>
+                        Assigned Tickets
+                    </h1>
+
+                    <p>
+                        Review and manage the support tickets
+                        assigned to you.
+                    </p>
+
+                </div>
+
+                <a
+                    href="agent-dashboard.html"
+                    class="back-button"
+                >
+                    ← Dashboard
+                </a>
+
+            </section>
+
+
+            <!-- SUMMARY -->
+            <section class="summary-grid">
+
+                <div class="summary-card">
+                    <div class="summary-label">
+                        Total Assigned
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="totalTickets"
+                    >
+                        0
+                    </div>
+                </div>
+
+
+                <div class="summary-card">
+                    <div class="summary-label">
+                        Open
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="openTickets"
+                    >
+                        0
+                    </div>
+                </div>
+
+
+                <div class="summary-card">
+                    <div class="summary-label">
+                        In Progress
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="activeTickets"
+                    >
+                        0
+                    </div>
+                </div>
+
+
+                <div class="summary-card">
+                    <div class="summary-label">
+                        Resolved
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="resolvedTickets"
+                    >
+                        0
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- FILTERS -->
+            <section class="filter-panel">
+
+                <div class="search-wrapper">
+
+                    <span class="search-icon">
+                        ⌕
+                    </span>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search by ticket ID, title or description..."
+                    >
+
+                </div>
+
+
+                <select id="statusFilter">
+                    <option value="all">
+                        All Statuses
+                    </option>
+
+                    <option value="open">
+                        Open
+                    </option>
+
+                    <option value="in_progress">
+                        In Progress
+                    </option>
+
+                    <option value="resolved">
+                        Resolved
+                    </option>
+
+                    <option value="closed">
+                        Closed
+                    </option>
+                </select>
+
+
+                <select id="priorityFilter">
+                    <option value="all">
+                        All Priorities
+                    </option>
+
+                    <option value="critical">
+                        Critical
+                    </option>
+
+                    <option value="high">
+                        High
+                    </option>
+
+                    <option value="medium">
+                        Medium
+                    </option>
+
+                    <option value="low">
+                        Low
+                    </option>
+                </select>
+
+
+                <select id="categoryFilter">
+                    <option value="all">
+                        All Categories
+                    </option>
+
+                    <option value="technical">
+                        Technical
+                    </option>
+
+                    <option value="billing">
+                        Billing
+                    </option>
+
+                    <option value="account">
+                        Account
+                    </option>
+
+                    <option value="access">
+                        Access
+                    </option>
+
+                    <option value="hardware">
+                        Hardware
+                    </option>
+
+                    <option value="software">
+                        Software
+                    </option>
+
+                    <option value="other">
+                        Other
+                    </option>
+                </select>
+
+            </section>
+
+
+            <!-- ERROR -->
+            <div
+                id="errorMessage"
+                class="error-message"
+                hidden
+            ></div>
+
+
+            <!-- LOADING -->
+            <div
+                id="loadingState"
+                class="loading-state"
+            >
+                <div class="loader"></div>
+
+                <p>
+                    Loading assigned tickets...
+                </p>
+            </div>
+
+
+            <!-- TICKET TABLE -->
+            <section
+                id="ticketsSection"
+                class="tickets-section"
+                hidden
+            >
+
+                <div class="table-header">
+
+                    <div>
+                        <h2>
+                            Ticket Queue
+                        </h2>
+
+                        <span id="resultCount">
+                            0 tickets
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Customer</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>AI</th>
+                                <th>Created</th>
+                                <th></th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="ticketsTableBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- EMPTY -->
+                <div
+                    id="emptyState"
+                    class="empty-state"
+                    hidden
+                >
+
+                    <div class="empty-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        No tickets found
+                    </h3>
+
+                    <p>
+                        No assigned tickets match
+                        your current filters.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="js/route-guard.js"></script>
+    <script src="js/agent-tickets.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Sign in to SupportAI"
+    >
+
+    <title>Sign In — SupportAI</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/auth.css"
+    >
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-background">
+        <div class="auth-glow auth-glow-one"></div>
+        <div class="auth-glow auth-glow-two"></div>
+    </div>
+
+
+    <main class="auth-container">
+
+        <!-- LEFT SIDE -->
+
+        <section class="auth-brand-section">
+
+            <a
+                href="index.html"
+                class="brand"
+            >
+                <span class="brand-mark">
+                    S
+                </span>
+
+                <span class="brand-name">
+                    Support<span>AI</span>
+                </span>
+            </a>
+
+
+            <div class="auth-hero-copy">
+
+                <div class="eyebrow">
+                    <span class="status-dot"></span>
+                    Intelligent support platform
+                </div>
+
+                <h1>
+                    Welcome
+                    <span class="gradient-text">
+                        back.
+                    </span>
+                </h1>
+
+                <p>
+                    Sign in to manage tickets, collaborate with
+                    your support team and let AI handle the repetitive work.
+                </p>
+
+            </div>
+
+
+            <div class="auth-mini-card">
+
+                <div class="mini-ai-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <span>
+                        AI assistant
+                    </span>
+
+                    <strong>
+                        Ready to analyze tickets
+                    </strong>
+
+                </div>
+
+                <div class="mini-status">
+                    ●
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SIDE -->
+
+        <section class="auth-card-section">
+
+            <div class="auth-card">
+
+                <div class="auth-card-header">
+
+                    <h2>
+                        Sign in
+                    </h2>
+
+                    <p>
+                        Access your SupportAI workspace
+                    </p>
+
+                </div>
+
+
+                <form
+                    id="loginForm"
+                    class="auth-form"
+                >
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <div class="label-row">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                        </div>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="passwordToggle"
+                                aria-label="Show password"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ERROR -->
+
+                    <div
+                        id="loginError"
+                        class="form-message error-message"
+                        hidden
+                    ></div>
+
+
+                    <!-- BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary auth-submit"
+                        id="loginButton"
+                    >
+                        <span id="loginButtonText">
+                            Sign in
+                        </span>
+
+                        <span
+                            id="loginLoader"
+                            class="button-loader"
+                            hidden
+                        ></span>
+                    </button>
+
+                </form>
+
+
+                <div class="auth-divider">
+                    <span>New to SupportAI?</span>
+                </div>
+
+
+                <a
+                    href="register.html"
+                    class="auth-outline-button"
+                >
+                    Create an account
+                    <span>→</span>
+                </a>
+
+
+                <p class="auth-footer-text">
+                    By continuing, you agree to use SupportAI
+                    responsibly and securely.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/auth.js"></script>
+
+</body>
+</html>
