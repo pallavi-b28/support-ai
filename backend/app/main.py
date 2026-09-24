@@ -27,25 +27,18 @@ app = FastAPI(
 )
 
 
-# =========================
-# CORS
-# =========================
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://127.0.0.1:5500",
-        "http://localhost:5500"
+        "http://localhost:5500",
+        "https://support-ai-2.onrender.com"
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
-# =========================
-# ROUTERS
-# =========================
 
 app.include_router(auth.router)
 app.include_router(tickets.router)
@@ -57,20 +50,12 @@ app.include_router(ai.router)
 app.include_router(customer.router)
 
 
-# =========================
-# UPLOADS
-# =========================
-
 app.mount(
     "/uploads",
     StaticFiles(directory="uploads"),
     name="uploads"
 )
 
-
-# =========================
-# ROOT
-# =========================
 
 @app.get("/")
 def home():
