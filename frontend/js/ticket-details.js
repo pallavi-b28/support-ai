@@ -1,10 +1,5 @@
 const API_BASE_URL = "http://127.0.0.1:8000";
 
-
-// =========================
-// AUTHENTICATION
-// =========================
-
 const token =
     localStorage.getItem("access_token");
 
@@ -17,10 +12,14 @@ if (!token || !storedUser) {
 }
 
 
-let currentUser;
+let currentUser = null;
+
 
 try {
-    currentUser = JSON.parse(storedUser);
+
+    currentUser =
+        JSON.parse(storedUser);
+
 } catch (error) {
 
     localStorage.removeItem("access_token");
@@ -30,27 +29,24 @@ try {
 }
 
 
-// =========================
-// GET TICKET ID
-// =========================
-
 const urlParams =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
+
 
 const ticketId =
     urlParams.get("id");
 
 
 if (!ticketId) {
-
-    window.location.href =
-        "tickets.html";
+    window.location.href = "tickets.html";
 }
 
 
-// =========================
-// ELEMENTS
-// =========================
+/* =========================
+   ELEMENTS
+========================= */
 
 const loadingState =
     document.getElementById("loadingState");
@@ -91,11 +87,29 @@ const sideAgent =
 const sideCreated =
     document.getElementById("sideCreated");
 
+
+/* IMAGE */
+
 const imageCard =
     document.getElementById("imageCard");
 
 const ticketImage =
     document.getElementById("ticketImage");
+
+const ticketImageInput =
+    document.getElementById("ticketImageInput");
+
+const selectedFileName =
+    document.getElementById("selectedFileName");
+
+const uploadImageButton =
+    document.getElementById("uploadImageButton");
+
+const uploadMessage =
+    document.getElementById("uploadMessage");
+
+
+/* AI */
 
 const aiCard =
     document.getElementById("aiCard");
@@ -109,6 +123,9 @@ const aiPriority =
 const aiResponse =
     document.getElementById("aiResponse");
 
+
+/* COMMENTS */
+
 const commentsList =
     document.getElementById("commentsList");
 
@@ -121,6 +138,9 @@ const commentMessage =
 const commentButton =
     document.getElementById("commentButton");
 
+
+/* RATING */
+
 const ratingCard =
     document.getElementById("ratingCard");
 
@@ -130,35 +150,170 @@ const ratingStars =
     );
 
 const ratingFeedback =
-    document.getElementById(
-        "ratingFeedback"
-    );
+    document.getElementById("ratingFeedback");
 
 const submitRating =
-    document.getElementById(
-        "submitRating"
-    );
+    document.getElementById("submitRating");
 
 const ratingMessage =
+    document.getElementById("ratingMessage");
+
+
+/* EDIT */
+
+const editTicketButton =
     document.getElementById(
-        "ratingMessage"
+        "editTicketButton"
+    );
+
+const editTicketOverlay =
+    document.getElementById(
+        "editTicketOverlay"
+    );
+
+const closeEditTicket =
+    document.getElementById(
+        "closeEditTicket"
+    );
+
+const cancelEditTicket =
+    document.getElementById(
+        "cancelEditTicket"
+    );
+
+const editTicketForm =
+    document.getElementById(
+        "editTicketForm"
+    );
+
+const editTicketTitleInput =
+    document.getElementById(
+        "editTicketTitleInput"
+    );
+
+const editTicketDescription =
+    document.getElementById(
+        "editTicketDescription"
+    );
+
+const editTicketCategory =
+    document.getElementById(
+        "editTicketCategory"
+    );
+
+const editTicketPriority =
+    document.getElementById(
+        "editTicketPriority"
+    );
+
+const saveEditTicket =
+    document.getElementById(
+        "saveEditTicket"
+    );
+
+const editTicketMessage =
+    document.getElementById(
+        "editTicketMessage"
     );
 
 
-// =========================
-// CURRENT TICKET
-// =========================
+/* DELETE */
+
+const deleteTicketButton =
+    document.getElementById(
+        "deleteTicketButton"
+    );
+
+const deleteConfirmOverlay =
+    document.getElementById(
+        "deleteConfirmOverlay"
+    );
+
+const cancelDeleteTicket =
+    document.getElementById(
+        "cancelDeleteTicket"
+    );
+
+const confirmDeleteTicket =
+    document.getElementById(
+        "confirmDeleteTicket"
+    );
+
+
+/* AI ASSISTANT */
+
+const aiAssistantOverlay =
+    document.getElementById(
+        "aiAssistantOverlay"
+    );
+
+const openAiAssistant =
+    document.getElementById(
+        "openAiAssistant"
+    );
+
+const openAiAssistantRight =
+    document.getElementById(
+        "openAiAssistantRight"
+    );
+
+const closeAiAssistant =
+    document.getElementById(
+        "closeAiAssistant"
+    );
+
+const aiAssistantMessages =
+    document.getElementById(
+        "aiAssistantMessages"
+    );
+
+const aiAssistantForm =
+    document.getElementById(
+        "aiAssistantForm"
+    );
+
+const aiAssistantInput =
+    document.getElementById(
+        "aiAssistantInput"
+    );
+
+const aiAssistantSend =
+    document.getElementById(
+        "aiAssistantSend"
+    );
+
+const suggestionButtons =
+    document.querySelectorAll(
+        "[data-ai-question]"
+    );
+
+
+const logoutButton =
+    document.getElementById(
+        "logoutButton"
+    );
+
 
 let currentTicket = null;
 
 let selectedRating = 0;
 
 
-// =========================
-// LOAD TICKET
-// =========================
+/* =========================
+   LOAD TICKET
+========================= */
 
 async function loadTicket() {
+
+    if (!ticketId) {
+
+        showError(
+            "Ticket ID is missing."
+        );
+
+        return;
+    }
+
 
     try {
 
@@ -180,20 +335,20 @@ async function loadTicket() {
             await response.json();
 
 
+        if (
+            response.status === 401
+        ) {
+
+            logout();
+
+            return;
+        }
+
+
         if (!response.ok) {
 
-            if (
-                response.status === 401
-            ) {
-
-                logout();
-
-                return;
-            }
-
-
             throw new Error(
-                data.detail ||
+                getErrorMessage(data) ||
                 "Unable to load ticket."
             );
         }
@@ -203,9 +358,7 @@ async function loadTicket() {
             data;
 
 
-        renderTicket(
-            data
-        );
+        renderTicket(data);
 
 
         await loadComments();
@@ -213,23 +366,57 @@ async function loadTicket() {
         await loadRating();
 
 
-        loadingState.hidden =
-            true;
+        if (loadingState) {
+            loadingState.hidden = true;
+        }
 
-        ticketContent.hidden =
-            false;
+
+        if (errorState) {
+            errorState.hidden = true;
+        }
+
+
+        if (ticketContent) {
+            ticketContent.hidden = false;
+        }
 
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Ticket loading error:",
+            error
+        );
 
-        loadingState.hidden =
-            true;
+
+        showError(
+            error.message ||
+            "Unable to load ticket."
+        );
+    }
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(message) {
+
+    if (loadingState) {
+        loadingState.hidden = true;
+    }
+
+
+    if (ticketContent) {
+        ticketContent.hidden = true;
+    }
+
+
+    if (errorState) {
 
         errorState.textContent =
-            error.message ||
-            "Unable to load ticket.";
+            message;
 
         errorState.hidden =
             false;
@@ -237,22 +424,33 @@ async function loadTicket() {
 }
 
 
-// =========================
-// RENDER TICKET
-// =========================
+/* =========================
+   RENDER TICKET
+========================= */
 
 function renderTicket(ticket) {
 
-    ticketIdElement.textContent =
-        ticket.id;
+    if (ticketIdElement) {
+
+        ticketIdElement.textContent =
+            ticket.id;
+    }
 
 
-    ticketTitle.textContent =
-        ticket.title;
+    if (ticketTitle) {
+
+        ticketTitle.textContent =
+            ticket.title ||
+            "Untitled ticket";
+    }
 
 
-    ticketDescription.textContent =
-        ticket.description;
+    if (ticketDescription) {
+
+        ticketDescription.textContent =
+            ticket.description ||
+            "No description provided.";
+    }
 
 
     const formattedDate =
@@ -261,88 +459,224 @@ function renderTicket(ticket) {
         );
 
 
-    ticketCreated.textContent =
-        `Created ${formattedDate}`;
+    if (ticketCreated) {
 
-
-    sideCreated.textContent =
-        formattedDate;
-
-
-    // -------------------------
-    // STATUS
-    // -------------------------
-
-    const status =
-        ticket.status || "open";
-
-
-    ticketStatus.textContent =
-        formatStatus(status);
-
-
-    ticketStatus.className =
-        `status-badge status-${status}`;
-
-
-    sideStatus.textContent =
-        formatStatus(status);
-
-
-    // -------------------------
-    // CATEGORY
-    // -------------------------
-
-    sideCategory.textContent =
-        ticket.category || "Other";
-
-
-    // -------------------------
-    // PRIORITY
-    // -------------------------
-
-    sidePriority.textContent =
-        ticket.priority || "Medium";
-
-
-    // -------------------------
-    // AGENT
-    // -------------------------
-
-    if (ticket.agent_id) {
-
-        sideAgent.textContent =
-            `Agent #${ticket.agent_id}`;
-
-    } else {
-
-        sideAgent.textContent =
-            "Not assigned";
+        ticketCreated.textContent =
+            `Created ${formattedDate}`;
     }
 
 
-    // -------------------------
-    // IMAGE
-    // -------------------------
+    if (sideCreated) {
+
+        sideCreated.textContent =
+            formattedDate;
+    }
+
+
+    const status =
+        ticket.status ||
+        "open";
+
+
+    if (ticketStatus) {
+
+        ticketStatus.textContent =
+            formatStatus(status);
+
+        ticketStatus.className =
+            `status-badge status-${status}`;
+    }
+
+
+    if (sideStatus) {
+
+        sideStatus.textContent =
+            formatStatus(status);
+    }
+
+
+    if (sideCategory) {
+
+        sideCategory.textContent =
+            ticket.category ||
+            "Other";
+    }
+
+
+    if (sidePriority) {
+
+        sidePriority.textContent =
+            ticket.priority ||
+            "Medium";
+    }
+
+
+    if (sideAgent) {
+
+        if (ticket.agent_id) {
+
+            sideAgent.textContent =
+                `Agent #${ticket.agent_id}`;
+
+        } else {
+
+            sideAgent.textContent =
+                "Not assigned";
+        }
+    }
+
+
+    renderTicketImage(ticket);
+
+    renderAIAnalysis(ticket);
+
+    updateTimeline(status);
+
+    updateTicketActions(status);
+}
+
+
+/* =========================
+   EDIT / DELETE VISIBILITY
+========================= */
+
+function updateTicketActions(status) {
+
+    /*
+       Customer can edit/delete
+       only while ticket is open.
+
+       Admin can also see the
+       controls.
+
+       Agents do not get customer
+       edit/delete controls.
+    */
+
+    if (!editTicketButton ||
+        !deleteTicketButton) {
+        return;
+    }
+
+
+    if (
+        currentUser &&
+        currentUser.role === "customer"
+    ) {
+
+        if (status === "open") {
+
+            editTicketButton.hidden =
+                false;
+
+            deleteTicketButton.hidden =
+                false;
+
+        } else {
+
+            editTicketButton.hidden =
+                true;
+
+            deleteTicketButton.hidden =
+                true;
+        }
+
+        return;
+    }
+
+
+    /*
+       Admin can edit/delete.
+    */
+
+    if (
+        currentUser &&
+        currentUser.role === "admin"
+    ) {
+
+        editTicketButton.hidden =
+            false;
+
+        deleteTicketButton.hidden =
+            false;
+
+        return;
+    }
+
+
+    /*
+       Agents cannot delete through
+       this customer page.
+    */
+
+    editTicketButton.hidden =
+        true;
+
+    deleteTicketButton.hidden =
+        true;
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+function renderTicketImage(ticket) {
+
+    if (
+        !imageCard ||
+        !ticketImage
+    ) {
+        return;
+    }
+
 
     if (ticket.image) {
 
         imageCard.hidden =
             false;
 
+
+        let imageUrl =
+            ticket.image;
+
+
+        if (
+            !imageUrl.startsWith(
+                "http://"
+            ) &&
+            !imageUrl.startsWith(
+                "https://"
+            )
+        ) {
+
+            imageUrl =
+                `${API_BASE_URL}${imageUrl}`;
+        }
+
+
         ticketImage.src =
-            `${API_BASE_URL}${ticket.image}`;
+            imageUrl;
+
 
     } else {
 
         imageCard.hidden =
             true;
     }
+}
 
 
-    // -------------------------
-    // AI ANALYSIS
-    // -------------------------
+/* =========================
+   AI ANALYSIS
+========================= */
+
+function renderAIAnalysis(ticket) {
+
+    if (!aiCard) {
+        return;
+    }
+
 
     if (
         ticket.ai_category ||
@@ -354,54 +688,41 @@ function renderTicket(ticket) {
             false;
 
 
-        aiCategory.textContent =
-            ticket.ai_category ||
-            "Not available";
+        if (aiCategory) {
+
+            aiCategory.textContent =
+                ticket.ai_category ||
+                "Not available";
+        }
 
 
-        aiPriority.textContent =
-            ticket.ai_priority ||
-            "Not available";
+        if (aiPriority) {
+
+            aiPriority.textContent =
+                ticket.ai_priority ||
+                "Not available";
+        }
 
 
-        aiResponse.textContent =
-            ticket.ai_response ||
-            "No suggested response available.";
+        if (aiResponse) {
+
+            aiResponse.textContent =
+                ticket.ai_response ||
+                "No suggested response available.";
+        }
+
 
     } else {
 
         aiCard.hidden =
             true;
     }
-
-
-    // -------------------------
-    // TIMELINE
-    // -------------------------
-
-    updateTimeline(
-        status
-    );
-
-
-    // -------------------------
-    // RATING
-    // -------------------------
-
-    if (
-        status === "resolved" ||
-        status === "closed"
-    ) {
-
-        ratingCard.hidden =
-            false;
-    }
 }
 
 
-// =========================
-// TIMELINE
-// =========================
+/* =========================
+   TIMELINE
+========================= */
 
 function updateTimeline(status) {
 
@@ -426,9 +747,30 @@ function updateTimeline(status) {
         );
 
 
-    timelineOpen.classList.add(
-        "active"
+    [
+        timelineOpen,
+        timelineProgress,
+        timelineResolved,
+        timelineClosed
+    ].forEach(
+        element => {
+
+            if (element) {
+
+                element.classList.remove(
+                    "active"
+                );
+            }
+        }
     );
+
+
+    if (timelineOpen) {
+
+        timelineOpen.classList.add(
+            "active"
+        );
+    }
 
 
     if (
@@ -437,9 +779,12 @@ function updateTimeline(status) {
         status === "closed"
     ) {
 
-        timelineProgress.classList.add(
-            "active"
-        );
+        if (timelineProgress) {
+
+            timelineProgress.classList.add(
+                "active"
+            );
+        }
     }
 
 
@@ -448,26 +793,911 @@ function updateTimeline(status) {
         status === "closed"
     ) {
 
-        timelineResolved.classList.add(
-            "active"
-        );
+        if (timelineResolved) {
+
+            timelineResolved.classList.add(
+                "active"
+            );
+        }
     }
 
 
     if (status === "closed") {
 
-        timelineClosed.classList.add(
-            "active"
+        if (timelineClosed) {
+
+            timelineClosed.classList.add(
+                "active"
+            );
+        }
+    }
+}
+
+
+/* =========================
+   EDIT TICKET
+========================= */
+
+if (editTicketButton) {
+
+    editTicketButton.addEventListener(
+        "click",
+        openEditTicket
+    );
+}
+
+
+function openEditTicket() {
+
+    if (!currentTicket) {
+        return;
+    }
+
+
+    if (
+        currentUser &&
+        currentUser.role === "customer" &&
+        currentTicket.status !== "open"
+    ) {
+
+        alert(
+            "Resolved or closed tickets cannot be edited."
+        );
+
+        return;
+    }
+
+
+    if (editTicketTitleInput) {
+
+        editTicketTitleInput.value =
+            currentTicket.title || "";
+    }
+
+
+    if (editTicketDescription) {
+
+        editTicketDescription.value =
+            currentTicket.description || "";
+    }
+
+
+    if (editTicketCategory) {
+
+        editTicketCategory.value =
+            normalizeCategory(
+                currentTicket.category
+            );
+    }
+
+
+    if (editTicketPriority) {
+
+        editTicketPriority.value =
+            normalizePriority(
+                currentTicket.priority
+            );
+    }
+
+
+    clearEditMessage();
+
+
+    if (editTicketOverlay) {
+
+        editTicketOverlay.hidden =
+            false;
+    }
+
+
+    if (editTicketTitleInput) {
+
+        setTimeout(
+            () => {
+                editTicketTitleInput.focus();
+            },
+            100
         );
     }
 }
 
 
-// =========================
-// LOAD COMMENTS
-// =========================
+function closeEditTicketModal() {
+
+    if (editTicketOverlay) {
+
+        editTicketOverlay.hidden =
+            true;
+    }
+}
+
+
+if (closeEditTicket) {
+
+    closeEditTicket.addEventListener(
+        "click",
+        closeEditTicketModal
+    );
+}
+
+
+if (cancelEditTicket) {
+
+    cancelEditTicket.addEventListener(
+        "click",
+        closeEditTicketModal
+    );
+}
+
+
+if (editTicketOverlay) {
+
+    editTicketOverlay.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                editTicketOverlay
+            ) {
+
+                closeEditTicketModal();
+            }
+        }
+    );
+}
+
+
+/* =========================
+   SAVE EDIT
+========================= */
+
+if (editTicketForm) {
+
+    editTicketForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            if (!currentTicket) {
+                return;
+            }
+
+
+            const title =
+                editTicketTitleInput
+                    ? editTicketTitleInput.value.trim()
+                    : "";
+
+
+            const description =
+                editTicketDescription
+                    ? editTicketDescription.value.trim()
+                    : "";
+
+
+            const category =
+                editTicketCategory
+                    ? editTicketCategory.value
+                    : "other";
+
+
+            const priority =
+                editTicketPriority
+                    ? editTicketPriority.value
+                    : "medium";
+
+
+            if (!title) {
+
+                showEditMessage(
+                    "Please enter a ticket title.",
+                    true
+                );
+
+                return;
+            }
+
+
+            if (!description) {
+
+                showEditMessage(
+                    "Please enter a ticket description.",
+                    true
+                );
+
+                return;
+            }
+
+
+            saveEditTicket.disabled =
+                true;
+
+            cancelEditTicket.disabled =
+                true;
+
+            saveEditTicket.textContent =
+                "Saving...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/tickets/${ticketId}`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${token}`
+                            },
+
+                            body: JSON.stringify({
+                                title:
+                                    title,
+
+                                description:
+                                    description,
+
+                                category:
+                                    category,
+
+                                priority:
+                                    priority
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    response.status === 401
+                ) {
+
+                    logout();
+
+                    return;
+                }
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        getErrorMessage(data) ||
+                        "Unable to update ticket."
+                    );
+                }
+
+
+                currentTicket =
+                    data;
+
+
+                renderTicket(data);
+
+
+                showEditMessage(
+                    "Ticket updated successfully.",
+                    false
+                );
+
+
+                setTimeout(
+                    function () {
+
+                        closeEditTicketModal();
+
+                    },
+                    600
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Update ticket error:",
+                    error
+                );
+
+
+                showEditMessage(
+                    error.message ||
+                    "Unable to update ticket.",
+                    true
+                );
+
+
+            } finally {
+
+                saveEditTicket.disabled =
+                    false;
+
+                cancelEditTicket.disabled =
+                    false;
+
+                saveEditTicket.textContent =
+                    "Save changes";
+            }
+        }
+    );
+}
+
+
+/* =========================
+   EDIT MESSAGES
+========================= */
+
+function showEditMessage(
+    message,
+    isError
+) {
+
+    if (!editTicketMessage) {
+        return;
+    }
+
+
+    editTicketMessage.textContent =
+        message;
+
+
+    editTicketMessage.className =
+        "ticket-edit-message show";
+
+
+    if (isError) {
+
+        editTicketMessage.classList.add(
+            "error"
+        );
+
+    } else {
+
+        editTicketMessage.classList.add(
+            "success"
+        );
+    }
+}
+
+
+function clearEditMessage() {
+
+    if (!editTicketMessage) {
+        return;
+    }
+
+
+    editTicketMessage.textContent =
+        "";
+
+    editTicketMessage.className =
+        "ticket-edit-message";
+}
+
+
+/* =========================
+   DELETE TICKET
+========================= */
+
+if (deleteTicketButton) {
+
+    deleteTicketButton.addEventListener(
+        "click",
+        openDeleteConfirmation
+    );
+}
+
+
+function openDeleteConfirmation() {
+
+    if (!currentTicket) {
+        return;
+    }
+
+
+    if (
+        currentUser &&
+        currentUser.role === "customer" &&
+        currentTicket.status !== "open"
+    ) {
+
+        alert(
+            "Only open tickets can be deleted."
+        );
+
+        return;
+    }
+
+
+    if (deleteConfirmOverlay) {
+
+        deleteConfirmOverlay.hidden =
+            false;
+    }
+}
+
+
+function closeDeleteConfirmation() {
+
+    if (deleteConfirmOverlay) {
+
+        deleteConfirmOverlay.hidden =
+            true;
+    }
+}
+
+
+if (cancelDeleteTicket) {
+
+    cancelDeleteTicket.addEventListener(
+        "click",
+        closeDeleteConfirmation
+    );
+}
+
+
+if (deleteConfirmOverlay) {
+
+    deleteConfirmOverlay.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                deleteConfirmOverlay
+            ) {
+
+                closeDeleteConfirmation();
+            }
+        }
+    );
+}
+
+
+if (confirmDeleteTicket) {
+
+    confirmDeleteTicket.addEventListener(
+        "click",
+        deleteTicket
+    );
+}
+
+
+async function deleteTicket() {
+
+    if (!currentTicket) {
+        return;
+    }
+
+
+    confirmDeleteTicket.disabled =
+        true;
+
+    cancelDeleteTicket.disabled =
+        true;
+
+    confirmDeleteTicket.textContent =
+        "Deleting...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/tickets/${ticketId}`,
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401
+        ) {
+
+            logout();
+
+            return;
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                getErrorMessage(data) ||
+                "Unable to delete ticket."
+            );
+        }
+
+
+        closeDeleteConfirmation();
+
+
+        /*
+           Redirect after successful
+           deletion.
+        */
+
+        window.location.href =
+            "tickets.html";
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete ticket error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to delete ticket."
+        );
+
+
+        confirmDeleteTicket.disabled =
+            false;
+
+        cancelDeleteTicket.disabled =
+            false;
+
+        confirmDeleteTicket.textContent =
+            "Delete ticket";
+    }
+}
+
+
+/* =========================
+   SELECT IMAGE
+========================= */
+
+if (ticketImageInput) {
+
+    ticketImageInput.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                ticketImageInput.files[0];
+
+
+            if (!file) {
+
+                if (selectedFileName) {
+
+                    selectedFileName.textContent =
+                        "No file selected";
+                }
+
+                return;
+            }
+
+
+            if (selectedFileName) {
+
+                selectedFileName.textContent =
+                    file.name;
+            }
+
+
+            if (uploadMessage) {
+
+                uploadMessage.textContent =
+                    "";
+
+                uploadMessage.hidden =
+                    true;
+            }
+        }
+    );
+}
+
+
+/* =========================
+   UPLOAD IMAGE
+========================= */
+
+if (uploadImageButton) {
+
+    uploadImageButton.addEventListener(
+        "click",
+        uploadTicketImage
+    );
+}
+
+
+async function uploadTicketImage() {
+
+    if (!ticketImageInput) {
+        return;
+    }
+
+
+    const file =
+        ticketImageInput.files[0];
+
+
+    if (!file) {
+
+        showUploadMessage(
+            "Please select a screenshot first.",
+            true
+        );
+
+        return;
+    }
+
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/webp"
+    ];
+
+
+    if (
+        !allowedTypes.includes(
+            file.type
+        )
+    ) {
+
+        showUploadMessage(
+            "Only JPG, JPEG, PNG and WEBP images are allowed.",
+            true
+        );
+
+        return;
+    }
+
+
+    const maxSize =
+        5 * 1024 * 1024;
+
+
+    if (file.size > maxSize) {
+
+        showUploadMessage(
+            "Image size must be less than 5 MB.",
+            true
+        );
+
+        return;
+    }
+
+
+    const formData =
+        new FormData();
+
+
+    /*
+       IMPORTANT:
+       Backend expects "image".
+    */
+
+    formData.append(
+        "image",
+        file
+    );
+
+
+    uploadImageButton.disabled =
+        true;
+
+    uploadImageButton.textContent =
+        "Uploading...";
+
+
+    showUploadMessage(
+        "Uploading screenshot...",
+        false
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/tickets/${ticketId}/image`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body: formData
+                }
+            );
+
+
+        const rawResponse =
+            await response.text();
+
+
+        let data = {};
+
+
+        try {
+
+            data =
+                rawResponse
+                    ? JSON.parse(
+                        rawResponse
+                    )
+                    : {};
+
+        } catch (error) {
+
+            console.warn(
+                "Upload response was not JSON."
+            );
+        }
+
+
+        if (
+            response.status === 401
+        ) {
+
+            logout();
+
+            return;
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                getErrorMessage(data) ||
+                rawResponse ||
+                `Upload failed with status ${response.status}.`
+            );
+        }
+
+
+        showUploadMessage(
+            "Screenshot uploaded successfully.",
+            false
+        );
+
+
+        if (
+            data.image &&
+            ticketImage &&
+            imageCard
+        ) {
+
+            let imageUrl =
+                data.image;
+
+
+            if (
+                !imageUrl.startsWith(
+                    "http://"
+                ) &&
+                !imageUrl.startsWith(
+                    "https://"
+                )
+            ) {
+
+                imageUrl =
+                    `${API_BASE_URL}${imageUrl}`;
+            }
+
+
+            ticketImage.src =
+                imageUrl;
+
+
+            imageCard.hidden =
+                false;
+        }
+
+
+        currentTicket =
+            data;
+
+
+        if (ticketImageInput) {
+
+            ticketImageInput.value =
+                "";
+        }
+
+
+        if (selectedFileName) {
+
+            selectedFileName.textContent =
+                "No file selected";
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Image upload error:",
+            error
+        );
+
+
+        showUploadMessage(
+            error.message ||
+            "Unable to upload screenshot.",
+            true
+        );
+
+
+    } finally {
+
+        uploadImageButton.disabled =
+            false;
+
+        uploadImageButton.textContent =
+            "Upload screenshot";
+    }
+}
+
+
+function showUploadMessage(
+    message,
+    isError
+) {
+
+    if (!uploadMessage) {
+        return;
+    }
+
+
+    uploadMessage.textContent =
+        message;
+
+    uploadMessage.hidden =
+        false;
+
+
+    if (isError) {
+
+        uploadMessage.style.color =
+            "#ff9b9b";
+
+    } else {
+
+        uploadMessage.style.color =
+            "#91d2ad";
+    }
+}
+
+
+/* =========================
+   COMMENTS
+========================= */
 
 async function loadComments() {
+
+    if (!commentsList) {
+        return;
+    }
+
 
     try {
 
@@ -489,33 +1719,35 @@ async function loadComments() {
             await response.json();
 
 
+        if (
+            response.status === 401
+        ) {
+
+            logout();
+
+            return;
+        }
+
+
         if (!response.ok) {
 
-            if (
-                response.status === 401
-            ) {
-
-                logout();
-
-                return;
-            }
-
-
             throw new Error(
-                data.detail ||
+                getErrorMessage(data) ||
                 "Unable to load comments."
             );
         }
 
 
-        renderComments(
-            data
-        );
+        renderComments(data);
 
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Comments error:",
+            error
+        );
+
 
         commentsList.innerHTML = `
             <div class="no-comments">
@@ -526,11 +1758,12 @@ async function loadComments() {
 }
 
 
-// =========================
-// RENDER COMMENTS
-// =========================
-
 function renderComments(comments) {
+
+    if (!commentsList) {
+        return;
+    }
+
 
     if (
         !comments ||
@@ -548,126 +1781,135 @@ function renderComments(comments) {
 
 
     commentsList.innerHTML =
-        comments.map(
-            comment => {
+        comments
+            .map(
+                comment => {
 
-                const isCurrentUser =
-                    currentUser &&
-                    comment.user_id ===
-                    currentUser.id;
-
-
-                const author =
-                    isCurrentUser
-                        ? "You"
-                        : `User #${comment.user_id}`;
-
-
-                const role =
-                    isCurrentUser
-                        ? currentUser.role
-                        : "Support";
+                    const isCurrentUser =
+                        currentUser &&
+                        Number(
+                            comment.user_id
+                        ) ===
+                        Number(
+                            currentUser.id
+                        );
 
 
-                return `
-                    <div class="comment-item">
+                    const author =
+                        isCurrentUser
+                            ? "You"
+                            : `User #${comment.user_id}`;
 
-                        <div class="comment-avatar">
-                            ${getInitial(
-                                author
-                            )}
-                        </div>
 
-                        <div class="comment-content">
+                    const role =
+                        isCurrentUser
+                            ? currentUser.role
+                            : "Support";
 
-                            <div class="comment-top">
 
-                                <span class="comment-author">
-                                    ${escapeHtml(author)}
-                                </span>
+                    return `
+                        <div class="comment-item">
 
-                                <span class="comment-role">
-                                    ${escapeHtml(role)}
-                                </span>
+                            <div class="comment-avatar">
+                                ${getInitial(author)}
+                            </div>
 
-                                <span class="comment-date">
-                                    ${formatDateTime(
-                                        comment.created_at
+                            <div class="comment-content">
+
+                                <div class="comment-top">
+
+                                    <span class="comment-author">
+                                        ${escapeHtml(author)}
+                                    </span>
+
+                                    <span class="comment-role">
+                                        ${escapeHtml(role)}
+                                    </span>
+
+                                    <span class="comment-date">
+                                        ${formatDateTime(
+                                            comment.created_at
+                                        )}
+                                    </span>
+
+                                </div>
+
+                                <p class="comment-message">
+                                    ${escapeHtml(
+                                        comment.message
                                     )}
-                                </span>
+                                </p>
 
                             </div>
 
-                            <p class="comment-message">
-                                ${escapeHtml(
-                                    comment.message
-                                )}
-                            </p>
-
                         </div>
-
-                    </div>
-                `;
-            }
-        ).join("");
+                    `;
+                }
+            )
+            .join("");
 }
 
 
-// =========================
-// ADD COMMENT
-// =========================
+if (commentForm) {
 
-commentForm.addEventListener(
-    "submit",
-    async (event) => {
+    commentForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
 
-        const message =
-            commentMessage.value.trim();
+            if (!commentMessage) {
+                return;
+            }
 
 
-        if (!message) {
-            return;
-        }
+            const message =
+                commentMessage.value.trim();
 
 
-        commentButton.disabled =
-            true;
-
-        commentButton.textContent =
-            "Sending...";
+            if (!message) {
+                return;
+            }
 
 
-        try {
+            if (commentButton) {
 
-            const response =
-                await fetch(
-                    `${API_BASE_URL}/tickets/${ticketId}/comments`,
-                    {
-                        method: "POST",
+                commentButton.disabled =
+                    true;
 
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            "Authorization":
-                                `Bearer ${token}`
-                        },
-
-                        body: JSON.stringify({
-                            message: message
-                        })
-                    }
-                );
+                commentButton.textContent =
+                    "Sending...";
+            }
 
 
-            const data =
-                await response.json();
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/tickets/${ticketId}/comments`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${token}`
+                            },
+
+                            body: JSON.stringify({
+                                message:
+                                    message
+                            })
+                        }
+                    );
 
 
-            if (!response.ok) {
+                const data =
+                    await response.json();
+
 
                 if (
                     response.status === 401
@@ -679,49 +1921,67 @@ commentForm.addEventListener(
                 }
 
 
-                throw new Error(
-                    data.detail ||
+                if (!response.ok) {
+
+                    throw new Error(
+                        getErrorMessage(data) ||
+                        "Unable to send message."
+                    );
+                }
+
+
+                commentMessage.value =
+                    "";
+
+
+                await loadComments();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Comment error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
                     "Unable to send message."
                 );
+
+
+            } finally {
+
+                if (commentButton) {
+
+                    commentButton.disabled =
+                        false;
+
+                    commentButton.textContent =
+                        "Send message";
+                }
             }
-
-
-            commentMessage.value =
-                "";
-
-
-            await loadComments();
-
-
-        } catch (error) {
-
-            alert(
-                error.message ||
-                "Unable to send message."
-            );
-
-        } finally {
-
-            commentButton.disabled =
-                false;
-
-            commentButton.textContent =
-                "Send message";
         }
-    }
-);
+    );
+}
 
 
-// =========================
-// RATING STARS
-// =========================
+/* =========================
+   RATING
+========================= */
 
 ratingStars.forEach(
     star => {
 
         star.addEventListener(
             "click",
-            () => {
+            function () {
+
+                if (star.disabled) {
+                    return;
+                }
+
 
                 selectedRating =
                     Number(
@@ -740,7 +2000,8 @@ ratingStars.forEach(
 
                         item.classList.toggle(
                             "selected",
-                            value <= selectedRating
+                            value <=
+                            selectedRating
                         );
                     }
                 );
@@ -750,122 +2011,146 @@ ratingStars.forEach(
 );
 
 
-// =========================
-// SUBMIT RATING
-// =========================
+if (submitRating) {
 
-submitRating.addEventListener(
-    "click",
-    async () => {
+    submitRating.addEventListener(
+        "click",
+        submitTicketRating
+    );
+}
 
-        if (!selectedRating) {
 
-            showRatingMessage(
-                "Please select a rating first.",
-                true
+async function submitTicketRating() {
+
+    if (!selectedRating) {
+
+        showRatingMessage(
+            "Please select a rating first.",
+            true
+        );
+
+        return;
+    }
+
+
+    submitRating.disabled =
+        true;
+
+    submitRating.textContent =
+        "Submitting...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/tickets/${ticketId}/rating`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        rating:
+                            selectedRating,
+
+                        feedback:
+                            ratingFeedback
+                                ? (
+                                    ratingFeedback.value.trim() ||
+                                    null
+                                )
+                                : null
+                    })
+                }
             );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401
+        ) {
+
+            logout();
 
             return;
         }
 
 
-        submitRating.disabled =
-            true;
+        if (!response.ok) {
 
-        submitRating.textContent =
-            "Submitting...";
-
-
-        try {
-
-            const response =
-                await fetch(
-                    `${API_BASE_URL}/tickets/${ticketId}/rating`,
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            "Authorization":
-                                `Bearer ${token}`
-                        },
-
-                        body: JSON.stringify({
-                            rating:
-                                selectedRating,
-
-                            feedback:
-                                ratingFeedback.value.trim() ||
-                                null
-                        })
-                    }
-                );
+            throw new Error(
+                getErrorMessage(data) ||
+                "Unable to submit rating."
+            );
+        }
 
 
-            const data =
-                await response.json();
+        showRatingMessage(
+            "Thank you! Your rating has been submitted.",
+            false
+        );
 
 
-            if (!response.ok) {
+        ratingStars.forEach(
+            star => {
 
-                throw new Error(
-                    data.detail ||
-                    "Unable to submit rating."
-                );
+                star.disabled =
+                    true;
             }
+        );
 
 
-            showRatingMessage(
-                "Thank you! Your rating has been submitted.",
-                false
-            );
-
-
-            submitRating.disabled =
-                true;
-
-            submitRating.textContent =
-                "Rating submitted";
-
-
-            ratingStars.forEach(
-                star => {
-                    star.disabled =
-                        true;
-                }
-            );
-
+        if (ratingFeedback) {
 
             ratingFeedback.disabled =
                 true;
-
-
-        } catch (error) {
-
-            showRatingMessage(
-                error.message ||
-                "Unable to submit rating.",
-                true
-            );
-
-
-            submitRating.disabled =
-                false;
-
-            submitRating.textContent =
-                "Submit rating";
         }
+
+
+        submitRating.textContent =
+            "Rating submitted";
+
+
+    } catch (error) {
+
+        console.error(
+            "Rating error:",
+            error
+        );
+
+
+        showRatingMessage(
+            error.message ||
+            "Unable to submit rating.",
+            true
+        );
+
+
+        submitRating.disabled =
+            false;
+
+        submitRating.textContent =
+            "Submit rating";
     }
-);
+}
 
-
-// =========================
-// LOAD EXISTING RATING
-// =========================
 
 async function loadRating() {
+
+    if (!ratingCard) {
+        return;
+    }
+
 
     try {
 
@@ -883,7 +2168,19 @@ async function loadRating() {
             );
 
 
-        if (response.status === 404) {
+        if (
+            response.status === 404
+        ) {
+
+            return;
+        }
+
+
+        if (
+            response.status === 401
+        ) {
+
+            logout();
 
             return;
         }
@@ -899,7 +2196,9 @@ async function loadRating() {
 
 
         selectedRating =
-            data.rating;
+            Number(
+                data.rating
+            );
 
 
         ratingStars.forEach(
@@ -913,7 +2212,8 @@ async function loadRating() {
 
                 star.classList.toggle(
                     "selected",
-                    value <= selectedRating
+                    value <=
+                    selectedRating
                 );
 
 
@@ -923,22 +2223,31 @@ async function loadRating() {
         );
 
 
-        if (data.feedback) {
+        if (
+            ratingFeedback &&
+            data.feedback
+        ) {
 
             ratingFeedback.value =
                 data.feedback;
         }
 
 
-        ratingFeedback.disabled =
-            true;
+        if (ratingFeedback) {
+
+            ratingFeedback.disabled =
+                true;
+        }
 
 
-        submitRating.disabled =
-            true;
+        if (submitRating) {
 
-        submitRating.textContent =
-            "Rating submitted";
+            submitRating.disabled =
+                true;
+
+            submitRating.textContent =
+                "Rating submitted";
+        }
 
 
         showRatingMessage(
@@ -950,21 +2259,26 @@ async function loadRating() {
     } catch (error) {
 
         console.error(
-            "Rating check failed:",
+            "Rating loading error:",
             error
         );
     }
 }
 
 
-// =========================
-// RATING MESSAGE
-// =========================
+/* =========================
+   RATING MESSAGE
+========================= */
 
 function showRatingMessage(
     message,
     isError
 ) {
+
+    if (!ratingMessage) {
+        return;
+    }
+
 
     ratingMessage.textContent =
         message;
@@ -992,11 +2306,637 @@ function showRatingMessage(
 }
 
 
-// =========================
-// STATUS FORMAT
-// =========================
+/* =========================
+   AI ASSISTANT
+========================= */
 
-function formatStatus(status) {
+function openAI() {
+
+    if (!aiAssistantOverlay) {
+        return;
+    }
+
+
+    aiAssistantOverlay.hidden =
+        false;
+
+
+    if (aiAssistantInput) {
+
+        setTimeout(
+            function () {
+
+                aiAssistantInput.focus();
+
+            },
+            100
+        );
+    }
+}
+
+
+function closeAI() {
+
+    if (!aiAssistantOverlay) {
+        return;
+    }
+
+
+    aiAssistantOverlay.hidden =
+        true;
+}
+
+
+if (openAiAssistant) {
+
+    openAiAssistant.addEventListener(
+        "click",
+        openAI
+    );
+}
+
+
+if (openAiAssistantRight) {
+
+    openAiAssistantRight.addEventListener(
+        "click",
+        openAI
+    );
+}
+
+
+if (closeAiAssistant) {
+
+    closeAiAssistant.addEventListener(
+        "click",
+        closeAI
+    );
+}
+
+
+if (aiAssistantOverlay) {
+
+    aiAssistantOverlay.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                aiAssistantOverlay
+            ) {
+
+                closeAI();
+            }
+        }
+    );
+}
+
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            if (
+                aiAssistantOverlay &&
+                !aiAssistantOverlay.hidden
+            ) {
+
+                closeAI();
+            }
+
+
+            if (
+                editTicketOverlay &&
+                !editTicketOverlay.hidden
+            ) {
+
+                closeEditTicketModal();
+            }
+
+
+            if (
+                deleteConfirmOverlay &&
+                !deleteConfirmOverlay.hidden
+            ) {
+
+                closeDeleteConfirmation();
+            }
+        }
+    }
+);
+
+
+/* =========================
+   AI SUGGESTIONS
+========================= */
+
+suggestionButtons.forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const question =
+                    button.dataset.aiQuestion ||
+                    button.textContent.trim();
+
+
+                if (
+                    !question ||
+                    !aiAssistantInput
+                ) {
+                    return;
+                }
+
+
+                aiAssistantInput.value =
+                    question;
+
+
+                aiAssistantInput.focus();
+
+
+                aiAssistantInput.setSelectionRange(
+                    aiAssistantInput.value.length,
+                    aiAssistantInput.value.length
+                );
+            }
+        );
+    }
+);
+
+
+if (aiAssistantForm) {
+
+    aiAssistantForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            if (!aiAssistantInput) {
+                return;
+            }
+
+
+            const message =
+                aiAssistantInput.value.trim();
+
+
+            if (!message) {
+                return;
+            }
+
+
+            await sendAIMessage(
+                message
+            );
+        }
+    );
+}
+
+
+async function sendAIMessage(
+    message
+) {
+
+    if (
+        !message ||
+        !message.trim()
+    ) {
+        return;
+    }
+
+
+    const cleanMessage =
+        message.trim();
+
+
+    addAIMessage(
+        cleanMessage,
+        "user"
+    );
+
+
+    aiAssistantInput.value =
+        "";
+
+
+    if (aiAssistantSend) {
+
+        aiAssistantSend.disabled =
+            true;
+
+        aiAssistantSend.textContent =
+            "Sending...";
+    }
+
+
+    const thinkingElement =
+        addAIMessage(
+            "Thinking...",
+            "bot"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/ai/tickets/${ticketId}/help`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        message:
+                            cleanMessage
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401
+        ) {
+
+            logout();
+
+            return;
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                getErrorMessage(data) ||
+                "AI assistant request failed."
+            );
+        }
+
+
+        if (thinkingElement) {
+
+            thinkingElement.remove();
+        }
+
+
+        const responseText =
+            data.response ||
+            data.message ||
+            data.answer ||
+            "I couldn't generate a response.";
+
+
+        addAIMessage(
+            responseText,
+            "bot"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "AI assistant error:",
+            error
+        );
+
+
+        if (thinkingElement) {
+
+            thinkingElement.remove();
+        }
+
+
+        addAIMessage(
+            error.message ||
+            "Sorry, I couldn't process your request.",
+            "bot"
+        );
+
+
+    } finally {
+
+        if (aiAssistantSend) {
+
+            aiAssistantSend.disabled =
+                false;
+
+            aiAssistantSend.textContent =
+                "Send";
+        }
+
+
+        if (aiAssistantInput) {
+
+            aiAssistantInput.focus();
+        }
+    }
+}
+
+
+function addAIMessage(
+    message,
+    type
+) {
+
+    if (!aiAssistantMessages) {
+        return null;
+    }
+
+
+    const messageElement =
+        document.createElement(
+            "div"
+        );
+
+
+    if (type === "user") {
+
+        messageElement.className =
+            "ai-message ai-message-user";
+
+    } else {
+
+        messageElement.className =
+            "ai-message ai-message-bot";
+    }
+
+
+    if (type !== "user") {
+
+        const avatar =
+            document.createElement(
+                "div"
+            );
+
+
+        avatar.className =
+            "ai-message-avatar";
+
+
+        avatar.textContent =
+            "✦";
+
+
+        messageElement.appendChild(
+            avatar
+        );
+    }
+
+
+    const bubble =
+        document.createElement(
+            "div"
+        );
+
+
+    bubble.className =
+        "ai-message-bubble";
+
+
+    if (type !== "user") {
+
+        const name =
+            document.createElement(
+                "strong"
+            );
+
+
+        name.textContent =
+            "SupportAI";
+
+
+        bubble.appendChild(
+            name
+        );
+    }
+
+
+    const paragraph =
+        document.createElement(
+            "p"
+        );
+
+
+    paragraph.textContent =
+        message;
+
+
+    bubble.appendChild(
+        paragraph
+    );
+
+
+    messageElement.appendChild(
+        bubble
+    );
+
+
+    aiAssistantMessages.appendChild(
+        messageElement
+    );
+
+
+    aiAssistantMessages.scrollTop =
+        aiAssistantMessages.scrollHeight;
+
+
+    return messageElement;
+}
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function normalizeCategory(
+    category
+) {
+
+    if (!category) {
+        return "other";
+    }
+
+
+    const value =
+        category
+            .toString()
+            .trim()
+            .toLowerCase();
+
+
+    const validCategories = [
+        "technical",
+        "billing",
+        "account",
+        "access",
+        "other"
+    ];
+
+
+    if (
+        validCategories.includes(
+            value
+        )
+    ) {
+
+        return value;
+    }
+
+
+    return "other";
+}
+
+
+function normalizePriority(
+    priority
+) {
+
+    if (!priority) {
+        return "medium";
+    }
+
+
+    const value =
+        priority
+            .toString()
+            .trim()
+            .toLowerCase();
+
+
+    const validPriorities = [
+        "low",
+        "medium",
+        "high",
+        "critical"
+    ];
+
+
+    if (
+        validPriorities.includes(
+            value
+        )
+    ) {
+
+        return value;
+    }
+
+
+    return "medium";
+}
+
+
+function getErrorMessage(data) {
+
+    if (!data) {
+        return "";
+    }
+
+
+    if (
+        typeof data ===
+        "string"
+    ) {
+
+        return data;
+    }
+
+
+    if (
+        typeof data.detail ===
+        "string"
+    ) {
+
+        return data.detail;
+    }
+
+
+    if (
+        Array.isArray(
+            data.detail
+        )
+    ) {
+
+        return data.detail
+            .map(
+                item => {
+
+                    if (
+                        item &&
+                        typeof item.msg ===
+                        "string"
+                    ) {
+
+                        return item.msg;
+                    }
+
+
+                    if (
+                        item &&
+                        item.detail
+                    ) {
+
+                        return String(
+                            item.detail
+                        );
+                    }
+
+
+                    return JSON.stringify(
+                        item
+                    );
+                }
+            )
+            .join(", ");
+    }
+
+
+    if (
+        data.detail &&
+        typeof data.detail ===
+        "object"
+    ) {
+
+        return JSON.stringify(
+            data.detail
+        );
+    }
+
+
+    if (
+        typeof data.message ===
+        "string"
+    ) {
+
+        return data.message;
+    }
+
+
+    return "";
+}
+
+
+function formatStatus(
+    status
+) {
 
     if (!status) {
         return "Unknown";
@@ -1004,7 +2944,10 @@ function formatStatus(status) {
 
 
     return status
-        .replaceAll("_", " ")
+        .replaceAll(
+            "_",
+            " "
+        )
         .replace(
             /\b\w/g,
             letter =>
@@ -1013,11 +2956,9 @@ function formatStatus(status) {
 }
 
 
-// =========================
-// DATE
-// =========================
-
-function formatDate(dateString) {
+function formatDate(
+    dateString
+) {
 
     if (!dateString) {
         return "—";
@@ -1025,7 +2966,19 @@ function formatDate(dateString) {
 
 
     const date =
-        new Date(dateString);
+        new Date(
+            dateString
+        );
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "—";
+    }
 
 
     return date.toLocaleDateString(
@@ -1039,11 +2992,9 @@ function formatDate(dateString) {
 }
 
 
-// =========================
-// DATE + TIME
-// =========================
-
-function formatDateTime(dateString) {
+function formatDateTime(
+    dateString
+) {
 
     if (!dateString) {
         return "";
@@ -1051,7 +3002,19 @@ function formatDateTime(dateString) {
 
 
     const date =
-        new Date(dateString);
+        new Date(
+            dateString
+        );
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "";
+    }
 
 
     return date.toLocaleString(
@@ -1067,11 +3030,9 @@ function formatDateTime(dateString) {
 }
 
 
-// =========================
-// INITIAL
-// =========================
-
-function getInitial(name) {
+function getInitial(
+    name
+) {
 
     if (!name) {
         return "U";
@@ -1084,25 +3045,27 @@ function getInitial(name) {
 }
 
 
-// =========================
-// HTML ESCAPE
-// =========================
-
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     div.textContent =
         value ?? "";
+
 
     return div.innerHTML;
 }
 
 
-// =========================
-// LOGOUT
-// =========================
+/* =========================
+   LOGOUT
+========================= */
 
 function logout() {
 
@@ -1114,15 +3077,10 @@ function logout() {
         "user"
     );
 
+
     window.location.href =
         "login.html";
 }
-
-
-const logoutButton =
-    document.getElementById(
-        "logoutButton"
-    );
 
 
 if (logoutButton) {
@@ -1134,8 +3092,37 @@ if (logoutButton) {
 }
 
 
-// =========================
-// START
-// =========================
+/* =========================
+   DEBUG
+========================= */
+
+console.log(
+    "SupportAI ticket-details.js loaded."
+);
+
+console.log(
+    "Ticket ID:",
+    ticketId
+);
+
+console.log(
+    "Current user:",
+    currentUser
+);
+
+console.log(
+    "AI Assistant:",
+    aiAssistantOverlay
+);
+
+console.log(
+    "AI Suggestions:",
+    suggestionButtons.length
+);
+
+
+/* =========================
+   START
+========================= */
 
 loadTicket();

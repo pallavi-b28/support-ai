@@ -12,7 +12,6 @@
 
     <title>Ticket Details | SupportAI</title>
 
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link
@@ -21,12 +20,10 @@
         crossorigin
     >
 
-
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
         rel="stylesheet"
     >
-
 
     <link
         rel="stylesheet"
@@ -42,6 +39,305 @@
         rel="stylesheet"
         href="css/ticket-details.css"
     >
+
+    <style>
+
+        /* =========================
+           TICKET ACTIONS
+        ========================= */
+
+        .ticket-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .ticket-action-button {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .edit-ticket-button {
+            background: rgba(255,255,255,0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .edit-ticket-button:hover {
+            background: rgba(255,255,255,0.14);
+        }
+
+        .delete-ticket-button {
+            background: rgba(255,70,70,0.12);
+            color: #ff9b9b;
+            border: 1px solid rgba(255,70,70,0.18);
+        }
+
+        .delete-ticket-button:hover {
+            background: rgba(255,70,70,0.20);
+        }
+
+        .ticket-action-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+
+        /* =========================
+           EDIT MODAL
+        ========================= */
+
+        .ticket-edit-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(8px);
+        }
+
+        .ticket-edit-overlay[hidden] {
+            display: none;
+        }
+
+        .ticket-edit-panel {
+            width: min(620px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #15171d;
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.45);
+        }
+
+        .ticket-edit-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .ticket-edit-header h2 {
+            margin: 5px 0 0;
+        }
+
+        .ticket-edit-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .ticket-edit-close:hover {
+            background: rgba(255,255,255,0.13);
+        }
+
+        .ticket-edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .ticket-edit-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .ticket-edit-field label {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.72);
+        }
+
+        .ticket-edit-field input,
+        .ticket-edit-field textarea,
+        .ticket-edit-field select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05);
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .ticket-edit-field textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        .ticket-edit-field input:focus,
+        .ticket-edit-field textarea:focus,
+        .ticket-edit-field select:focus {
+            border-color: rgba(255,255,255,0.35);
+        }
+
+        .ticket-edit-field select option {
+            background: #15171d;
+            color: #ffffff;
+        }
+
+        .ticket-edit-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .ticket-edit-cancel,
+        .ticket-edit-save {
+            border: none;
+            border-radius: 10px;
+            padding: 11px 18px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .ticket-edit-cancel {
+            background: rgba(255,255,255,0.07);
+            color: #ffffff;
+        }
+
+        .ticket-edit-save {
+            background: #ffffff;
+            color: #111318;
+        }
+
+        .ticket-edit-save:disabled,
+        .ticket-edit-cancel:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .ticket-edit-message {
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .ticket-edit-message.show {
+            display: block;
+        }
+
+        .ticket-edit-message.error {
+            color: #ff9b9b;
+            background: rgba(255,70,70,0.08);
+        }
+
+        .ticket-edit-message.success {
+            color: #91d2ad;
+            background: rgba(90,210,150,0.08);
+        }
+
+
+        /* =========================
+           DELETE CONFIRMATION
+        ========================= */
+
+        .delete-confirm-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(8px);
+        }
+
+        .delete-confirm-overlay[hidden] {
+            display: none;
+        }
+
+        .delete-confirm-panel {
+            width: min(430px, 100%);
+            background: #15171d;
+            border: 1px solid rgba(255,70,70,0.15);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.45);
+        }
+
+        .delete-confirm-icon {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255,70,70,0.10);
+            color: #ff9b9b;
+            font-size: 22px;
+            margin-bottom: 18px;
+        }
+
+        .delete-confirm-panel h2 {
+            margin: 0 0 10px;
+        }
+
+        .delete-confirm-panel p {
+            margin: 0;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.65);
+        }
+
+        .delete-confirm-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .delete-cancel-button,
+        .delete-confirm-button {
+            border: none;
+            border-radius: 10px;
+            padding: 11px 18px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .delete-cancel-button {
+            background: rgba(255,255,255,0.07);
+            color: #ffffff;
+        }
+
+        .delete-confirm-button {
+            background: #d94b4b;
+            color: #ffffff;
+        }
+
+        .delete-confirm-button:disabled,
+        .delete-cancel-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+    </style>
 
 </head>
 
@@ -82,9 +378,7 @@
                 href="dashboard.html"
                 class="nav-item"
             >
-                <span class="nav-icon">
-                    ⌂
-                </span>
+                <span class="nav-icon">⌂</span>
 
                 <span>
                     Dashboard
@@ -96,9 +390,7 @@
                 href="tickets.html"
                 class="nav-item"
             >
-                <span class="nav-icon">
-                    ◫
-                </span>
+                <span class="nav-icon">◫</span>
 
                 <span>
                     My Tickets
@@ -110,9 +402,7 @@
                 href="create-ticket.html"
                 class="nav-item"
             >
-                <span class="nav-icon">
-                    ＋
-                </span>
+                <span class="nav-icon">＋</span>
 
                 <span>
                     Create Ticket
@@ -124,7 +414,11 @@
 
         <div class="sidebar-bottom">
 
-            <div class="sidebar-help">
+            <button
+                type="button"
+                class="sidebar-help ai-help-trigger"
+                id="openAiAssistant"
+            >
 
                 <div class="help-icon">
                     ✦
@@ -137,25 +431,21 @@
                     </strong>
 
                     <p>
-                        Our support team is here.
+                        Ask our AI Support Assistant.
                     </p>
 
                 </div>
 
-            </div>
+            </button>
 
 
             <button
                 class="logout-button"
                 id="logoutButton"
             >
-
-                <span>
-                    ↪
-                </span>
+                <span>↪</span>
 
                 Logout
-
             </button>
 
         </div>
@@ -163,17 +453,11 @@
     </aside>
 
 
-
     <!-- =========================
          MAIN
     ========================== -->
 
     <main class="dashboard-main ticket-details-main">
-
-
-        <!-- =========================
-             BACK
-        ========================== -->
 
         <a
             href="tickets.html"
@@ -183,10 +467,7 @@
         </a>
 
 
-
-        <!-- =========================
-             LOADING
-        ========================== -->
+        <!-- LOADING -->
 
         <div
             id="loadingState"
@@ -202,10 +483,7 @@
         </div>
 
 
-
-        <!-- =========================
-             ERROR
-        ========================== -->
+        <!-- ERROR -->
 
         <div
             id="errorState"
@@ -214,10 +492,7 @@
         ></div>
 
 
-
-        <!-- =========================
-             TICKET CONTENT
-        ========================== -->
+        <!-- TICKET CONTENT -->
 
         <div
             id="ticketContent"
@@ -225,9 +500,7 @@
         >
 
 
-            <!-- =========================
-                 HEADER
-            ========================== -->
+            <!-- HEADER -->
 
             <header class="ticket-detail-header">
 
@@ -237,15 +510,39 @@
                         TICKET #<span id="ticketId"></span>
                     </div>
 
-
                     <h1 id="ticketTitle">
                         Ticket title
                     </h1>
 
-
                     <p id="ticketCreated">
                         Created date
                     </p>
+
+
+                    <!-- CUSTOMER ACTIONS -->
+
+                    <div
+                        class="ticket-actions"
+                        id="ticketActions"
+                    >
+
+                        <button
+                            type="button"
+                            id="editTicketButton"
+                            class="ticket-action-button edit-ticket-button"
+                        >
+                            ✎ Edit ticket
+                        </button>
+
+                        <button
+                            type="button"
+                            id="deleteTicketButton"
+                            class="ticket-action-button delete-ticket-button"
+                        >
+                            🗑 Delete ticket
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -264,17 +561,12 @@
             </header>
 
 
-
-            <!-- =========================
-                 MAIN GRID
-            ========================== -->
+            <!-- MAIN GRID -->
 
             <section class="ticket-detail-grid">
 
 
-                <!-- =========================
-                     LEFT COLUMN
-                ========================== -->
+                <!-- LEFT COLUMN -->
 
                 <div class="ticket-detail-left">
 
@@ -308,8 +600,7 @@
                     </article>
 
 
-
-                    <!-- SCREENSHOT -->
+                    <!-- EXISTING SCREENSHOT -->
 
                     <article
                         id="imageCard"
@@ -346,6 +637,76 @@
                     </article>
 
 
+                    <!-- SCREENSHOT UPLOAD -->
+
+                    <article class="detail-card upload-card">
+
+                        <div class="detail-card-header">
+
+                            <div>
+
+                                <p class="panel-label">
+                                    ATTACHMENT
+                                </p>
+
+                                <h2>
+                                    Add a screenshot
+                                </h2>
+
+                            </div>
+
+                            <span class="upload-hint">
+                                JPG, PNG or WEBP
+                            </span>
+
+                        </div>
+
+
+                        <div class="upload-area">
+
+                            <input
+                                type="file"
+                                id="ticketImageInput"
+                                accept="image/jpeg,image/png,image/webp"
+                                hidden
+                            >
+
+
+                            <label
+                                for="ticketImageInput"
+                                class="file-select-button"
+                            >
+                                Choose screenshot
+                            </label>
+
+
+                            <span
+                                id="selectedFileName"
+                                class="selected-file-name"
+                            >
+                                No file selected
+                            </span>
+
+
+                            <button
+                                type="button"
+                                id="uploadImageButton"
+                                class="upload-image-button"
+                            >
+                                Upload screenshot
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="uploadMessage"
+                            class="upload-message"
+                            hidden
+                        ></div>
+
+                    </article>
+
 
                     <!-- AI ANALYSIS -->
 
@@ -379,7 +740,6 @@
 
                         <div class="ai-analysis-grid">
 
-
                             <div class="ai-result">
 
                                 <span>
@@ -405,7 +765,6 @@
 
                             </div>
 
-
                         </div>
 
 
@@ -421,16 +780,13 @@
                                     Suggested response
                                 </span>
 
-                                <p
-                                    id="aiResponse"
-                                ></p>
+                                <p id="aiResponse"></p>
 
                             </div>
 
                         </div>
 
                     </article>
-
 
 
                     <!-- COMMENTS -->
@@ -466,8 +822,6 @@
                         </div>
 
 
-                        <!-- COMMENT FORM -->
-
                         <form
                             id="commentForm"
                             class="comment-form"
@@ -501,7 +855,6 @@
                         </form>
 
                     </article>
-
 
 
                     <!-- RATING -->
@@ -607,10 +960,7 @@
                 </div>
 
 
-
-                <!-- =========================
-                     RIGHT COLUMN
-                ========================== -->
+                <!-- RIGHT COLUMN -->
 
                 <aside class="ticket-detail-right">
 
@@ -633,9 +983,7 @@
                                     Status
                                 </span>
 
-                                <strong
-                                    id="sideStatus"
-                                >
+                                <strong id="sideStatus">
                                     —
                                 </strong>
 
@@ -648,9 +996,7 @@
                                     Category
                                 </span>
 
-                                <strong
-                                    id="sideCategory"
-                                >
+                                <strong id="sideCategory">
                                     —
                                 </strong>
 
@@ -663,9 +1009,7 @@
                                     Priority
                                 </span>
 
-                                <strong
-                                    id="sidePriority"
-                                >
+                                <strong id="sidePriority">
                                     —
                                 </strong>
 
@@ -678,9 +1022,7 @@
                                     Assigned agent
                                 </span>
 
-                                <strong
-                                    id="sideAgent"
-                                >
+                                <strong id="sideAgent">
                                     Not assigned
                                 </strong>
 
@@ -693,9 +1035,7 @@
                                     Created
                                 </span>
 
-                                <strong
-                                    id="sideCreated"
-                                >
+                                <strong id="sideCreated">
                                     —
                                 </strong>
 
@@ -704,7 +1044,6 @@
                         </div>
 
                     </div>
-
 
 
                     <!-- STATUS TIMELINE -->
@@ -821,7 +1160,11 @@
 
                     <!-- HELP -->
 
-                    <div class="ticket-help-card">
+                    <button
+                        type="button"
+                        class="ticket-help-card ai-help-trigger"
+                        id="openAiAssistantRight"
+                    >
 
                         <div class="ticket-help-icon">
                             ✦
@@ -832,12 +1175,11 @@
                         </strong>
 
                         <p>
-                            Add a message to your support
-                            conversation and our team will
-                            get back to you.
+                            Ask SupportAI for troubleshooting
+                            assistance with this ticket.
                         </p>
 
-                    </div>
+                    </button>
 
                 </aside>
 
@@ -847,7 +1189,379 @@
 
     </main>
 
+
+    <!-- =========================
+         EDIT TICKET MODAL
+    ========================== -->
+
+    <div
+        id="editTicketOverlay"
+        class="ticket-edit-overlay"
+        hidden
+    >
+
+        <section
+            class="ticket-edit-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="editTicketTitle"
+        >
+
+            <div class="ticket-edit-header">
+
+                <div>
+
+                    <p class="panel-label">
+                        TICKET MANAGEMENT
+                    </p>
+
+                    <h2 id="editTicketTitle">
+                        Edit ticket
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="closeEditTicket"
+                    class="ticket-edit-close"
+                    aria-label="Close edit ticket"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                id="editTicketForm"
+                class="ticket-edit-form"
+            >
+
+                <div class="ticket-edit-field">
+
+                    <label for="editTicketTitleInput">
+                        Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editTicketTitleInput"
+                        maxlength="200"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="ticket-edit-field">
+
+                    <label for="editTicketDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="editTicketDescription"
+                        maxlength="5000"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="ticket-edit-field">
+
+                    <label for="editTicketCategory">
+                        Category
+                    </label>
+
+                    <select id="editTicketCategory">
+
+                        <option value="technical">
+                            Technical
+                        </option>
+
+                        <option value="billing">
+                            Billing
+                        </option>
+
+                        <option value="account">
+                            Account
+                        </option>
+
+                        <option value="access">
+                            Access
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="ticket-edit-field">
+
+                    <label for="editTicketPriority">
+                        Priority
+                    </label>
+
+                    <select id="editTicketPriority">
+
+                        <option value="low">
+                            Low
+                        </option>
+
+                        <option value="medium">
+                            Medium
+                        </option>
+
+                        <option value="high">
+                            High
+                        </option>
+
+                        <option value="critical">
+                            Critical
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div
+                    id="editTicketMessage"
+                    class="ticket-edit-message"
+                ></div>
+
+
+                <div class="ticket-edit-actions">
+
+                    <button
+                        type="button"
+                        id="cancelEditTicket"
+                        class="ticket-edit-cancel"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="saveEditTicket"
+                        class="ticket-edit-save"
+                    >
+                        Save changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </div>
+
+
+    <!-- =========================
+         DELETE CONFIRMATION
+    ========================== -->
+
+    <div
+        id="deleteConfirmOverlay"
+        class="delete-confirm-overlay"
+        hidden
+    >
+
+        <section
+            class="delete-confirm-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="deleteConfirmTitle"
+        >
+
+            <div class="delete-confirm-icon">
+                🗑
+            </div>
+
+            <h2 id="deleteConfirmTitle">
+                Delete this ticket?
+            </h2>
+
+            <p>
+                This action cannot be undone. The ticket and
+                its stored screenshot will be permanently deleted.
+            </p>
+
+
+            <div class="delete-confirm-actions">
+
+                <button
+                    type="button"
+                    id="cancelDeleteTicket"
+                    class="delete-cancel-button"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    id="confirmDeleteTicket"
+                    class="delete-confirm-button"
+                >
+                    Delete ticket
+                </button>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- =========================
+         AI SUPPORT ASSISTANT
+    ========================== -->
+
+    <div
+        id="aiAssistantOverlay"
+        class="ai-assistant-overlay"
+        hidden
+    >
+
+        <section
+            class="ai-assistant-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="aiAssistantTitle"
+        >
+
+            <div class="ai-assistant-header">
+
+                <div class="ai-assistant-heading">
+
+                    <div class="ai-assistant-icon">
+                        ✦
+                    </div>
+
+                    <div>
+
+                        <p class="panel-label">
+                            SUPPORTAI
+                        </p>
+
+                        <h2 id="aiAssistantTitle">
+                            AI Support Assistant
+                        </h2>
+
+                        <span>
+                            Ask questions about this ticket
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="closeAiAssistant"
+                    class="ai-assistant-close"
+                    aria-label="Close AI assistant"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div
+                id="aiAssistantMessages"
+                class="ai-assistant-messages"
+            >
+
+                <div class="ai-message ai-message-bot">
+
+                    <div class="ai-message-avatar">
+                        ✦
+                    </div>
+
+                    <div class="ai-message-bubble">
+
+                        <strong>
+                            SupportAI
+                        </strong>
+
+                        <p>
+                            Hi! I can help you understand this ticket,
+                            suggest troubleshooting steps, or explain
+                            what you can try next.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="ai-assistant-suggestions">
+
+                <button
+                    type="button"
+                    data-ai-question="What should I try first to fix this issue?"
+                >
+                    What should I try first?
+                </button>
+
+                <button
+                    type="button"
+                    data-ai-question="Can you explain what might be causing this issue?"
+                >
+                    What might be causing it?
+                </button>
+
+            </div>
+
+
+            <form
+                id="aiAssistantForm"
+                class="ai-assistant-form"
+            >
+
+                <textarea
+                    id="aiAssistantInput"
+                    rows="2"
+                    maxlength="1000"
+                    placeholder="Ask about your ticket..."
+                    required
+                ></textarea>
+
+
+                <button
+                    type="submit"
+                    id="aiAssistantSend"
+                >
+                    Send
+                </button>
+
+            </form>
+
+
+            <p class="ai-assistant-disclaimer">
+                AI provides assistance based on your ticket information.
+                For account-specific actions, contact the support team.
+            </p>
+
+        </section>
+
+    </div>
+
+
     <script src="js/route-guard.js"></script>
+
     <script src="js/ticket-details.js"></script>
 
 </body>

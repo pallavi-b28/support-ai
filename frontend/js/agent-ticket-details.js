@@ -660,8 +660,8 @@ async function analyzeTicket() {
 
 
         aiResponse.textContent =
-            result.suggested_response ||
-            "No suggested response generated.";
+    result.response ||
+    "No suggested response generated.";
 
 
         showStatusMessage(
