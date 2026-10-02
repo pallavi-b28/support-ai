@@ -20,9 +20,13 @@ The system integrates AI-powered ticket analysis to automatically classify suppo
 - View personal tickets
 - Track ticket status
 - View ticket details
+- Edit and delete tickets
 - Communicate through ticket comments
 - Rate resolved tickets
 - Provide feedback after resolution
+- AI-powered support assistance
+
+---
 
 ### 🧑‍💻 Support Agent
 
@@ -36,6 +40,8 @@ The system integrates AI-powered ticket analysis to automatically classify suppo
 - View uploaded screenshots
 - AI-powered ticket analysis
 - AI-generated suggested customer responses
+
+---
 
 ### 👨‍💼 Administrator
 
@@ -51,7 +57,9 @@ The system integrates AI-powered ticket analysis to automatically classify suppo
 - View category and priority analytics
 - Monitor AI-analyzed tickets
 
-### 🤖 AI Features
+---
+
+## 🤖 AI Features
 
 SupportAI uses Google's Gemini API to analyze support tickets.
 
@@ -61,53 +69,54 @@ The AI analyzes:
 - Ticket priority
 - Suggested response
 
-Example:
+### Example
 
-```text
 Customer Issue:
-"I cannot login to my account even though my password is correct."
+
+> "I cannot login to my account even though my password is correct."
 
 AI Analysis:
 
-Category:
-Access
+**Category:** Access
 
-Priority:
-High
+**Priority:** High
 
-Suggested Response:
-A professional response that the support agent
-can send to the customer.
+**Suggested Response:**
 
-🏗️ System Architecture
+A professional response that the support agent can send to the customer.
 
-                    ┌─────────────────────┐
-                    │      Customer       │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │     HTML / CSS / JS │
-                    │      Frontend       │
-                    └──────────┬──────────┘
-                               │
+---
+
+## 🏗️ System Architecture
+
+```text
+                 ┌─────────────────────┐
+                 │      Customer       │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │    HTML / CSS / JS  │
+                 │      Frontend       │
+                 └──────────┬──────────┘
+                            │
                          REST API
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │       FastAPI       │
-                    │       Backend       │
-                    └──────────┬──────────┘
-                               │
-              ┌────────────────┼────────────────┐
-              │                │                │
-              ▼                ▼                ▼
-       ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-       │ PostgreSQL  │  │  Gemini AI  │  │ File Upload │
-       │  Database   │  │     API     │  │   Storage   │
-       └─────────────┘  └─────────────┘  └─────────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │       FastAPI       │
+                 │       Backend       │
+                 └──────────┬──────────┘
+                            │
+              ┌─────────────┼─────────────┐
+              │             │             │
+              ▼             ▼             ▼
+       ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+       │ PostgreSQL  │ │  Gemini AI  │ │    File     │
+       │  Database   │ │     API     │ │   Storage   │
+       └─────────────┘ └─────────────┘ └─────────────┘
 
-🛠️ Tech Stack
+     🛠️ Tech Stack
 Frontend
 HTML5
 CSS3
@@ -136,233 +145,210 @@ Git
 GitHub
 Docker
 Docker Compose
-
 📁 Project Structure
 support-ai/
 │
 ├── backend/
-│   │
-│   ├── app/
-│   │   ├── routers/
-│   │   │   ├── admin.py
-│   │   │   ├── agent.py
-│   │   │   ├── ai.py
-│   │   │   ├── auth.py
-│   │   │   ├── comments.py
-│   │   │   ├── customer.py
-│   │   │   ├── ratings.py
-│   │   │   └── tickets.py
-│   │   │
-│   │   ├── auth.py
-│   │   ├── database.py
-│   │   ├── dependencies.py
-│   │   ├── main.py
-│   │   ├── models.py
-│   │   └── schemas.py
-│   │
-│   ├── requirements.txt
-│   └── .env.example
+│   │
+│   ├── app/
+│   │   ├── routers/
+│   │   │   ├── admin.py
+│   │   │   ├── agent.py
+│   │   │   ├── ai.py
+│   │   │   ├── auth.py
+│   │   │   ├── comments.py
+│   │   │   ├── customer.py
+│   │   │   ├── ratings.py
+│   │   │   └── tickets.py
+│   │   │
+│   │   ├── auth.py
+│   │   ├── database.py
+│   │   ├── dependencies.py
+│   │   ├── main.py
+│   │   ├── models.py
+│   │   └── schemas.py
+│   │
+│   ├── requirements.txt
+│   └── .env.example
 │
 ├── frontend/
-│   │
-│   ├── css/
-│   │   ├── style.css
-│   │   ├── auth.css
-│   │   ├── dashboard.css
-│   │   ├── tickets.css
-│   │   ├── create-ticket.css
-│   │   ├── ticket-details.css
-│   │   ├── agent-dashboard.css
-│   │   ├── agent-tickets.css
-│   │   ├── agent-ticket-details.css
-│   │   ├── admin-dashboard.css
-│   │   ├── admin-tickets.css
-│   │   ├── admin-users.css
-│   │   └── admin-agents.css
-│   │
-│   ├── js/
-│   │   ├── auth.js
-│   │   ├── route-guard.js
-│   │   ├── dashboard.js
-│   │   ├── tickets.js
-│   │   ├── create-ticket.js
-│   │   ├── ticket-details.js
-│   │   ├── agent-dashboard.js
-│   │   ├── agent-tickets.js
-│   │   ├── agent-ticket-details.js
-│   │   ├── admin-dashboard.js
-│   │   ├── admin-tickets.js
-│   │   ├── admin-users.js
-│   │   └── admin-agents.js
-│   │
-│   ├── index.html
-│   ├── login.html
-│   ├── register.html
-│   ├── dashboard.html
-│   ├── tickets.html
-│   ├── create-ticket.html
-│   ├── ticket-details.html
-│   ├── agent-dashboard.html
-│   ├── agent-tickets.html
-│   ├── agent-ticket-details.html
-│   ├── admin-dashboard.html
-│   ├── admin-tickets.html
-│   ├── admin-users.html
-│   └── admin-agents.html
+│   │
+│   ├── css/
+│   │   ├── style.css
+│   │   ├── auth.css
+│   │   ├── dashboard.css
+│   │   ├── tickets.css
+│   │   ├── create-ticket.css
+│   │   ├── ticket-details.css
+│   │   ├── agent-dashboard.css
+│   │   ├── agent-tickets.css
+│   │   ├── agent-ticket-details.css
+│   │   ├── admin-dashboard.css
+│   │   ├── admin-tickets.css
+│   │   ├── admin-users.css
+│   │   └── admin-agents.css
+│   │
+│   ├── js/
+│   │   ├── auth.js
+│   │   ├── route-guard.js
+│   │   ├── dashboard.js
+│   │   ├── tickets.js
+│   │   ├── create-ticket.js
+│   │   ├── ticket-details.js
+│   │   ├── agent-dashboard.js
+│   │   ├── agent-tickets.js
+│   │   ├── agent-ticket-details.js
+│   │   ├── admin-dashboard.js
+│   │   ├── admin-tickets.js
+│   │   ├── admin-users.js
+│   │   └── admin-agents.js
+│   │
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   ├── dashboard.html
+│   ├── tickets.html
+│   ├── create-ticket.html
+│   ├── ticket-details.html
+│   ├── agent-dashboard.html
+│   ├── agent-tickets.html
+│   ├── agent-ticket-details.html
+│   ├── admin-dashboard.html
+│   ├── admin-tickets.html
+│   ├── admin-users.html
+│   └── admin-agents.html
 │
 ├── .gitignore
 └── README.md
-
 User Login
-     ↓
+     ↓
 FastAPI verifies credentials
-     ↓
+     ↓
 Password verification
-     ↓
+     ↓
 JWT token generated
-     ↓
+     ↓
 Token stored on frontend
-     ↓
+     ↓
 Token sent with API requests
-     ↓
+     ↓
 FastAPI validates token
-     ↓
+     ↓
 User identity retrieved
-
 #Each role has different permissions.
 Customer
-   ├── Create tickets
-   ├── View own tickets
-   ├── Comment
-   └── Rate tickets
-
+   ├── Create tickets
+   ├── View own tickets
+   ├── Comment
+   └── Rate tickets
 Agent
-   ├── View assigned tickets
-   ├── Update status
-   ├── Comment/respond
-   └── Use AI analysis
-
+   ├── View assigned tickets
+   ├── Update status
+   ├── Comment/respond
+   └── Use AI analysis
 Admin
-   ├── Manage users
-   ├── Manage agents
-   ├── Assign tickets
-   ├── View analytics
-   └── Administrative operations
-
+   ├── Manage users
+   ├── Manage agents
+   ├── Assign tickets
+   ├── View analytics
+   └── Administrative operations
 🎫 Ticket Lifecycle
 Customer creates ticket
-        ↓
-      Open
-        ↓
-   Admin assigns
-        ↓
-    Agent works
-        ↓
-   In Progress
-        ↓
-     Resolved
-        ↓
+        ↓
+      Open
+        ↓
+   Admin assigns
+        ↓
+    Agent works
+        ↓
+   In Progress
+        ↓
+     Resolved
+        ↓
 Customer provides rating
-        ↓
-      Closed
-
+        ↓
+      Closed
 🤖 AI Ticket Analysis
 When an authorized support agent analyzes a ticket, the ticket information is sent to Gemini.
-   Ticket
-  │
-  ├── Title
-  └── Description
-          │
-          ▼
-     Gemini API
-          │
-          ▼
-   AI Classification
-          │
-     ┌────┼──────────────┐
-     ▼    ▼              ▼
- Category Priority  Suggested Response
-     │    │              │
-     └────┴──────────────┘
-              │
-              ▼
-       PostgreSQL
-
-
- 🗄️ Database Design
-
+   Ticket
+  │
+  ├── Title
+  └── Description
+          │
+          ▼
+     Gemini API
+          │
+          ▼
+   AI Classification
+          │
+     ┌────┼──────────────┐
+     ▼    ▼              ▼
+ Category Priority  Suggested Response
+     │    │              │
+     └────┴──────────────┘
+              │
+              ▼
+       PostgreSQL
+ 🗄️ Database Design
 Users
-  │
-  ├───────────────┐
-  │               │
-  ▼               ▼
-Tickets        Comments
-  │
-  └──────► Ratings
- 🔌 API Endpoints
- Authentication:
- POST /auth/register
+  │
+  ├───────────────┐
+  │               │
+  ▼               ▼
+Tickets        Comments
+  │
+  └──────► Ratings
+ 🔌 API Endpoints
+ Authentication:
+ POST /auth/register
 POST /auth/login
-GET  /auth/me
- 
- Tickets:
- POST /tickets/
-GET  /tickets/
-GET  /tickets/my
-GET  /tickets/{ticket_id}
-PUT  /tickets/{ticket_id}/status
+GET  /auth/me
+ Tickets:
+ POST /tickets/
+GET  /tickets/
+GET  /tickets/my
+GET  /tickets/{ticket_id}
+PUT  /tickets/{ticket_id}/status
 POST /tickets/{ticket_id}/image
-
 Comments:
 POST /tickets/{ticket_id}/comments
-GET  /tickets/{ticket_id}/comments
-
+GET  /tickets/{ticket_id}/comments
 Ratings:
 POST /tickets/{ticket_id}/rating
-GET  /tickets/{ticket_id}/rating
-
+GET  /tickets/{ticket_id}/rating
 Agent
 GET /agent/tickets
 GET /agent/tickets/{ticket_id}
 PUT /agent/tickets/{ticket_id}/status
 GET /agent/dashboard
-
 Admin:
 POST /admin/agents
-GET  /admin/users
-PUT  /admin/tickets/{ticket_id}/assign
-GET  /admin/dashboard
-
+GET  /admin/users
+PUT  /admin/tickets/{ticket_id}/assign
+GET  /admin/dashboard
 AI:
 POST /ai/tickets/{ticket_id}/analyze
 
 ⚙️ Local Setup
+
 Clone the repository
 git clone https://github.com/pallavi-b28/support-ai.git
 cd support-ai
-
 Create a Python virtual environment
 cd backend
 python -m venv venv
-
 Windows
 .\venv\Scripts\Activate.ps1
-
 Install dependencies
 pip install -r requirements.txt
-
 Configure environment variables
 Create:
 backend/.env
 Add:
 DATABASE_URL=postgresql://username:password@localhost:5432/supportai_db
-
 SECRET_KEY=your_secret_key
-
 ALGORITHM=HS256
-
 ACCESS_TOKEN_EXPIRE_MINUTES=60
-
 GEMINI_API_KEY=your_gemini_api_key
 
 🗃️ PostgreSQL Setup
@@ -387,9 +373,7 @@ http://127.0.0.1:5500/
 
 🧪 Testing the Application
 Customer
-
 Register a new account and:
-
 Login
 Create a ticket
 Upload a screenshot
@@ -398,9 +382,7 @@ Add comments
 Track status
 Rate resolved ticket
 Agent
-
 Login as an agent and:
-
 Open Agent Dashboard
 View Assigned Tickets
 Open a ticket
@@ -409,9 +391,7 @@ Review AI response
 Send a response
 Update ticket status
 Admin
-
 Login as an administrator and:
-
 Open Admin Dashboard
 View system statistics
 Manage users
@@ -440,7 +420,6 @@ Docker-ready architecture
 🔮 Future Enhancements
 
 Potential future improvements include:
-
 Email notifications
 Real-time chat using WebSockets
 Advanced AI-powered ticket summarization
@@ -455,15 +434,10 @@ CI/CD pipeline
 Automated unit and integration testing
 
 👩‍💻 Author
-
 Pallavi Bhat
-
 Computer Science and Business Systems Engineering Student
-
 Project
-
 SupportAI – AI-Powered Support Ticket Management System
-
 Built using:
 Python
 FastAPI
@@ -476,5 +450,3 @@ Gemini AI
 
 ⭐ Project Goal
 SupportAI aims to improve traditional customer support workflows by combining ticket management, role-based collaboration, analytics, and generative AI assistance into a single platform.
-
-
